@@ -46,6 +46,8 @@ export function Courses({
     }
   }, [selectedCategory]);
 
+  console.log(`${process.env.NEXT_PUBLIC_API_URL}${courses[0].poster}`);
+
   return (
     <Box
       ref={sectionRef}

@@ -21,7 +21,6 @@ import {
   WhatsApp,
   GitHub,
 } from "@mui/icons-material";
-import Image from "next/image";
 import { useThemeContext } from "@/contexts/ThemeContext";
 
 export default function Footer() {
@@ -259,7 +258,9 @@ export default function Footer() {
       </Box>
       <Box
         sx={{
-          backgroundColor: "background.default",
+          background: isDarkMode
+            ? "radial-gradient(circle at 20% 80%, #1784ad15 0%, transparent 50%), radial-gradient(circle at 80% 20%, #4fa8c510 0%, transparent 50%)"
+            : "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
           p: 2,
         }}
       >
@@ -278,7 +279,7 @@ export default function Footer() {
               href="https://facebook.com"
               target="_blank"
               sx={{
-                color: "white",
+                color: "text.primary",
                 "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
               }}
             >
@@ -289,7 +290,7 @@ export default function Footer() {
               href="https://wa.me/1234567890"
               target="_blank"
               sx={{
-                color: "white",
+                color: "text.primary",
                 "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
               }}
             >
@@ -300,7 +301,7 @@ export default function Footer() {
               href="https://linkedin.com"
               target="_blank"
               sx={{
-                color: "white",
+                color: "text.primary",
                 "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
               }}
             >
@@ -311,14 +312,17 @@ export default function Footer() {
               href="https://github.com"
               target="_blank"
               sx={{
-                color: "white",
+                color: "text.primary",
                 "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
               }}
             >
               <GitHub />
             </IconButton>
           </Box>
-          <Typography variant="body2" sx={{ opacity: 0.8 }}>
+          <Typography
+            variant="body2"
+            sx={{ color: "text.primary", fontWeight: 500 }}
+          >
             Developed by: Mohamed Badry
           </Typography>
         </Container>

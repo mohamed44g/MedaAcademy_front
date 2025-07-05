@@ -11,14 +11,8 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "www.med-aplus.com",
-        pathname: "/Uploads/*",
-      },
-
-      {
-        protocol: "https",
-        hostname: "med-aplus.com",
-        pathname: "/Uploads/*",
+        hostname: "**",
+        pathname: "**",
       },
     ],
   },

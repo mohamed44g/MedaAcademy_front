@@ -1,5 +1,6 @@
 import { getCourses, getSpecialties } from "@/lib/api/courses";
 import { Courses } from "./Courses";
+import axiosInstance from "@/lib/axiosServer";
 
 export const dynamic = "force-dynamic";
 async function fetchCourses() {
@@ -24,6 +25,8 @@ async function fetchSpecialties() {
 
 export default async function CoursesSection() {
   const courses = await fetchCourses();
+  console.log(courses);
+  console.log("url", axiosInstance.defaults.baseURL);
   const specialties = await fetchSpecialties();
   return <Courses courses={courses} specialties={specialties} />;
 }
