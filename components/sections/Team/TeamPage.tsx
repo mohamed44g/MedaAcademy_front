@@ -1,8 +1,8 @@
+export const dynamic = "force-dynamic";
 import axiosInstance from "@/lib/axiosServer";
 import { Container, Box, Alert } from "@mui/material";
 import { InstructorsCarousel } from "./InstructorsCarousel";
 
-export const dynamic = "force-static";
 // Server-side data fetching
 async function getInstructors() {
   try {

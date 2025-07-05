@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 // import toast from "react-hot-toast";
 // Create axios instance
 export const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: "https://www.med-aplus.com/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",

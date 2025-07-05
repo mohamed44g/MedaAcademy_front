@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import axiosInstance from "@/lib/axiosServer";
 import { MyWallet } from "../components/sections/MyWallet"; // افتراض وجود خدمة تحتوي على الدالة
 

@@ -9,6 +9,7 @@ import ContactSection from "../components/sections/ContactSection";
 import WorkshopsSection from "../components/sections/Workshops/WorkshopsSection";
 import Footer from "../components/sections/Footer";
 
+export const dynamic = "force-dynamic";
 export default function Home() {
   return (
     <div>

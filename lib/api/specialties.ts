@@ -1,6 +1,6 @@
 // lib/api/specialties.ts
+export const dynamic = "force-dynamic";
 import axiosInstance from "../axiosClient";
-
 export interface Specialty {
   id: number;
   name: string;

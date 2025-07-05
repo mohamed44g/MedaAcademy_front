@@ -1,4 +1,4 @@
-import { MyWorkshops } from "../components/sections/MyWorkshops"
+import { MyWorkshops } from "../components/sections/MyWorkshops";
 
 // Mock workshops data
 const mockWorkshops = [
@@ -14,13 +14,13 @@ const mockWorkshops = [
     location: "قاعة المؤتمرات - المبنى الرئيسي",
     instructor: "د. سارة أحمد",
   },
-]
+];
 
 export const metadata = {
   title: "ورشي - MedA+ Academy",
   description: "إدارة الورش المسجل بها في أكاديمية MedA+",
-}
+};
 
 export default function WorkshopsPage() {
-  return <MyWorkshops workshops={mockWorkshops} />
+  return <MyWorkshops workshops={mockWorkshops} />;
 }

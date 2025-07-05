@@ -8,12 +8,16 @@ const nextConfig = {
   },
   images: {
     unoptimized: false,
-    domains: ["localhost"],
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "3000",
+        protocol: "https",
+        hostname: "www.med-aplus.com",
+        pathname: "/Uploads/*",
+      },
+
+      {
+        protocol: "https",
+        hostname: "med-aplus.com",
         pathname: "/Uploads/*",
       },
     ],
