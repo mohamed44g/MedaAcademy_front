@@ -25,8 +25,6 @@ async function fetchSpecialties() {
 
 export default async function CoursesSection() {
   const courses = await fetchCourses();
-  console.log(courses);
-  console.log("url", axiosInstance.defaults.baseURL);
   const specialties = await fetchSpecialties();
   return <Courses courses={courses} specialties={specialties} />;
 }

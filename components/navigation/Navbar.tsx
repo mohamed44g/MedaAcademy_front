@@ -32,7 +32,7 @@ export default function Navbar() {
   const isMobile = useMediaQuery(muiTheme.breakpoints.down("md"));
   const path = usePathname();
   const isMainPage = path === "/";
-  const hideNavbar = path === "/videos/" || path === "/profile";
+  const hideNavbar = path.includes("/videos/") || path.includes("/profile");
   const isAuthPage = path === "/auth/login" || path === "/auth/register";
 
   const navItems = [
