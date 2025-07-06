@@ -48,16 +48,17 @@ export default function RegisterForm({
       name: "",
       email: "",
       password: "",
-      confirmPassword: "",
       phone: "",
+      confirmPassword: "",
       specialty_id: 12,
     },
     validationSchema: registerSchema,
     onSubmit: (values) => {
-      console.log("onSubmit called with values:", values); // Debug
-      alert(JSON.stringify(values, null, 2));
       const submitValues = {
-        ...values,
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        phone: values.phone,
         specialty_id: values.specialty_id ? Number(values.specialty_id) : 0, // Handle optional field
       };
       registerMutation.mutate(submitValues);

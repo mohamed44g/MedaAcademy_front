@@ -6,7 +6,7 @@
     "build": "next build",
     "dev": "next dev --experimental-https",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start -p 3001"
   },
   "dependencies": {
     "@emotion/react": "^11.13.5",
