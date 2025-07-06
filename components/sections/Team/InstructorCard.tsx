@@ -36,7 +36,7 @@ export function InstructorCard({ instructor }: InstructorCardProps) {
   };
 
   return (
-    <Link href={`/instructors/${instructor.id}`}>
+    <Link href={`/instructors/${instructor.id}`} prefetch={false}>
       <Card
         sx={{
           height: "100%",

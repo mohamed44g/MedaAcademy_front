@@ -29,26 +29,10 @@ export default async function RegisterPage() {
         background: "background.default",
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      <Container maxWidth="md">
-        {/* Back to Home Button */}
-        <Box sx={{ mb: 3 }}>
-          <Button
-            component={NextLink}
-            href="/"
-            startIcon={<ArrowBack />}
-            sx={{
-              color: "text.primary",
-              "&:hover": {
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
-              },
-            }}
-          >
-            العودة للرئيسية
-          </Button>
-        </Box>
-
+      <Container maxWidth="md" sx={{ py: 15 }}>
         <Card
           sx={{
             borderRadius: 4,

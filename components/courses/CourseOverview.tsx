@@ -28,20 +28,40 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import { useState } from "react";
+import axiosInstance from "@/lib/axiosClient";
+import { useMutation } from "@tanstack/react-query";
 
 export function CourseOverview({
-  baseUrl,
   courseId,
   courseData,
+  isEnrolled,
 }: {
-  baseUrl: string;
   courseId: string;
   courseData: any;
+  isEnrolled: boolean;
 }) {
   const { isDarkMode } = useThemeContext();
   const router = useRouter();
   const course = courseData;
   const [expandedSection, setExpandedSection] = useState<string>("midterm");
+  const { data, mutate } = useMutation({
+    mutationFn: async () => {
+      const response = await axiosInstance.post(`/courses/${courseId}/enroll`, {
+        courseId,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("تم الاشتراك في الكورس بنجاح");
+      setTimeout(() => {
+        router.push(`/courses/${courseId}/content`);
+      }, 2000);
+    },
+    onError: (error: any) => {
+      if (error.response) toast.error(error.response.data.message);
+      else toast.error("حدث خطأ أثناء الاشتراك في الكورس");
+    },
+  });
   const calcTime = (time: number) => {
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
@@ -52,9 +72,7 @@ export function CourseOverview({
     return `${hours} ساعة ${minutes} دقيقة ${seconds} ثواني`;
   };
   const handleSubscribe = async () => {
-    // Mock subscription (replace with API call)
-    toast.success("تم الاشتراك في الكورس بنجاح (محاكاة)");
-    router.push(`/courses/${courseId}/content`);
+    mutate();
   };
 
   const handleSectionChange =
@@ -139,33 +157,64 @@ export function CourseOverview({
                       mb: 2,
                       borderRadius: 2,
                       overflow: "hidden",
+                      textAlign: "right",
                     }}
                   >
                     <Image
-                      src={`${baseUrl}${course.poster}`}
+                      src={`${axiosInstance.defaults.baseURL}${course.poster}`}
                       alt={course.title}
                       fill
                       style={{ objectFit: "cover" }}
                     />
                   </Box>
-                  <Button
-                    variant="contained"
-                    size="large"
-                    fullWidth
-                    onClick={handleSubscribe}
-                    sx={{
-                      borderRadius: 25,
-                      px: 4,
-                      py: 1.5,
-                      background: `linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)`,
-                      "&:hover": {
-                        transform: "translateY(-2px)",
-                        boxShadow: `0 12px 25px #1784ad40`,
-                      },
-                    }}
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    {course.title}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: 600, mb: 2, mt: 2 }}
                   >
-                    اشترك في الكورس
-                  </Button>
+                    السعر : {course.price}
+                  </Typography>
+                  {isEnrolled ? (
+                    <Button
+                      variant="contained"
+                      size="large"
+                      fullWidth
+                      href={`/courses/${courseId}/content`}
+                      sx={{
+                        borderRadius: 25,
+                        px: 4,
+                        py: 1.5,
+                        background: `linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)`,
+                        "&:hover": {
+                          transform: "translateY(-2px)",
+                          boxShadow: `0 12px 25px #1784ad40`,
+                        },
+                      }}
+                    >
+                      انت مشترك اكمل الكورس
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      size="large"
+                      fullWidth
+                      onClick={handleSubscribe}
+                      sx={{
+                        borderRadius: 25,
+                        px: 4,
+                        py: 1.5,
+                        background: `linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)`,
+                        "&:hover": {
+                          transform: "translateY(-2px)",
+                          boxShadow: `0 12px 25px #1784ad40`,
+                        },
+                      }}
+                    >
+                      اشترك في الكورس
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             </Grid2>

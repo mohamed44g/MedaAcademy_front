@@ -1,7 +1,6 @@
+export const dynamic = "force-dynamic";
 import { CourseOverview } from "@/components/courses/CourseOverview";
 import axiosInstance from "@/lib/axiosServer";
-
-export const dynamic = "force-dynamic";
 
 export async function getCourseData(courseId: string) {
   try {
@@ -14,13 +13,14 @@ export async function getCourseData(courseId: string) {
 }
 
 export default async function Course({ params }: { params: any }) {
-  const courseId = await params.courseId;
+  const { courseId } = await params;
   const courseData = await getCourseData(courseId);
+  console.log(courseData);
   return (
     <CourseOverview
-      baseUrl="http://localhost:3000"
       courseId={courseId}
-      courseData={courseData}
+      courseData={courseData.course}
+      isEnrolled={courseData.isEnrolled}
     />
   );
 }

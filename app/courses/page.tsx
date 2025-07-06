@@ -101,11 +101,12 @@ export async function generateMetadata({
 export default async function CoursesPage({
   searchParams,
 }: {
-  searchParams: { page?: string };
+  searchParams: any;
 }) {
-  const page = parseInt(searchParams.page || "1", 10);
+  const { page } = await searchParams;
+  const pageInt = parseInt(page || "1", 10);
   const limit = 6;
-  const { courses, totalPages } = await getCourses(page);
+  const { courses, totalPages } = await getCourses(pageInt);
 
   // JSON-LD Structured Data for Courses
   const structuredData = {

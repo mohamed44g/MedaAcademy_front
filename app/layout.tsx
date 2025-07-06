@@ -28,9 +28,6 @@ export default async function RootLayout({
 }) {
   const headersList = await headers();
   const currentPath = headersList.get("x-current-path");
-  const isVideoPage = currentPath?.includes("/videos/");
-  const isProfilePage = currentPath?.includes("/profile");
-  const isAuthPage = currentPath?.includes("/auth");
 
   return (
     <html lang="ar" className={changa.variable} suppressHydrationWarning>
@@ -43,7 +40,7 @@ export default async function RootLayout({
                 duration: 3000,
               }}
             />
-            {!isVideoPage && !isProfilePage && !isAuthPage && <Navbar />}
+            <Navbar />
             {children}
           </ThemeRegistry>
         </QueryClientWrapper>

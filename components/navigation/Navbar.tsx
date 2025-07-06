@@ -24,15 +24,6 @@ import Link from "next/link";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { usePathname } from "next/navigation";
 
-const navItems = [
-  { label: "الرئيسية", href: "/" },
-  { label: "عنا", href: "#about" },
-  { label: "مميزاتنا", href: "#features" },
-  { label: "كورسات", href: "#courses" },
-  { label: "الورشات", href: "#workshops" },
-  { label: "فريقنا", href: "#team" },
-];
-
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -41,6 +32,17 @@ export default function Navbar() {
   const isMobile = useMediaQuery(muiTheme.breakpoints.down("md"));
   const path = usePathname();
   const isMainPage = path === "/";
+  const hideNavbar = path === "/videos/" || path === "/profile";
+  const isAuthPage = path === "/auth/login" || path === "/auth/register";
+
+  const navItems = [
+    { label: "الرئيسية", href: "/" },
+    { label: "عنا", href: isAuthPage ? "/#about" : "#about" },
+    { label: "مميزاتنا", href: isAuthPage ? "/#features" : "#features" },
+    { label: "كورسات", href: isAuthPage ? "/#courses" : "#courses" },
+    { label: "الورشات", href: isAuthPage ? "/#workshops" : "#workshops" },
+    { label: "فريقنا", href: isAuthPage ? "/#team" : "#team" },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,107 +86,109 @@ export default function Navbar() {
   );
 
   return (
-    <>
-      <AppBar
-        position="fixed"
-        className="navbar"
-        sx={{
-          backgroundColor:
-            scrolled || !isMainPage
-              ? isDarkMode
-                ? "rgba(31, 41, 55, 0.95)"
-                : "rgba(23, 132, 173, 0.95)"
-              : "transparent",
-          backdropFilter: scrolled ? "blur(10px)" : "none",
-          transition: "all 0.3s ease",
-          boxShadow: scrolled ? 3 : 0,
-        }}
-      >
-        <Toolbar sx={{ justifyContent: "space-between" }}>
-          <Box
-            sx={{ display: "flex", alignItems: "center", gap: 1 }}
-            component={Link}
-            href="/"
-          >
-            <Typography
-              variant="h6"
-              component="div"
-              sx={{
-                fontWeight: 700,
-                color: "white",
-                fontSize: "1.5rem",
-                textDecoration: "none",
-              }}
+    !hideNavbar && (
+      <>
+        <AppBar
+          position="fixed"
+          className="navbar"
+          sx={{
+            backgroundColor:
+              scrolled || !isMainPage
+                ? isDarkMode
+                  ? "rgba(31, 41, 55, 0.95)"
+                  : "rgba(23, 132, 173, 0.95)"
+                : "transparent",
+            backdropFilter: scrolled ? "blur(10px)" : "none",
+            transition: "all 0.3s ease",
+            boxShadow: scrolled ? 3 : 0,
+          }}
+        >
+          <Toolbar sx={{ justifyContent: "space-between" }}>
+            <Box
+              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+              component={Link}
+              href="/"
             >
-              MedA+ Academy
-            </Typography>
-          </Box>
+              <Typography
+                variant="h6"
+                component="div"
+                sx={{
+                  fontWeight: 700,
+                  color: "white",
+                  fontSize: "1.5rem",
+                  textDecoration: "none",
+                }}
+              >
+                MedA+ Academy
+              </Typography>
+            </Box>
 
-          {!isMobile ? (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-              {navItems.map((item) => (
+            {!isMobile ? (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
+                {navItems.map((item) => (
+                  <Button
+                    key={item.label}
+                    color="inherit"
+                    component={Link}
+                    href={item.href}
+                    sx={{
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      },
+                    }}
+                  >
+                    {item.label}
+                  </Button>
+                ))}
+
+                <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
+                  {isDarkMode ? <LightMode /> : <DarkMode />}
+                </IconButton>
+
                 <Button
-                  key={item.label}
-                  color="inherit"
+                  variant="contained"
                   component={Link}
-                  href={item.href}
+                  href="/auth/login"
                   sx={{
-                    color: "white",
+                    backgroundColor: "white",
+                    color: muiTheme.palette.primary.main,
                     "&:hover": {
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      backgroundColor: "rgba(255, 255, 255, 0.9)",
                     },
                   }}
                 >
-                  {item.label}
+                  سجل الآن
                 </Button>
-              ))}
+              </Box>
+            ) : (
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
+                  {isDarkMode ? <LightMode /> : <DarkMode />}
+                </IconButton>
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={handleDrawerToggle}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Box>
+            )}
+          </Toolbar>
+        </AppBar>
 
-              <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
-                {isDarkMode ? <LightMode /> : <DarkMode />}
-              </IconButton>
-
-              <Button
-                variant="contained"
-                component={Link}
-                href="/auth/login"
-                sx={{
-                  backgroundColor: "white",
-                  color: muiTheme.palette.primary.main,
-                  "&:hover": {
-                    backgroundColor: "rgba(255, 255, 255, 0.9)",
-                  },
-                }}
-              >
-                سجل الآن
-              </Button>
-            </Box>
-          ) : (
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
-                {isDarkMode ? <LightMode /> : <DarkMode />}
-              </IconButton>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerToggle}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Box>
-          )}
-        </Toolbar>
-      </AppBar>
-
-      <Drawer
-        anchor="right"
-        open={mobileOpen}
-        onClose={handleDrawerToggle}
-        ModalProps={{
-          keepMounted: true,
-        }}
-      >
-        {drawer}
-      </Drawer>
-    </>
+        <Drawer
+          anchor="right"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+        >
+          {drawer}
+        </Drawer>
+      </>
+    )
   );
 }

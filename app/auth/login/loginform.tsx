@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import {
   Box,
@@ -22,6 +22,7 @@ import { useLogin } from "../../../hooks/useAuth";
 import type { LoginCredentials } from "../../../lib/api/auth";
 import NextLink from "next/link";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import { getDeviceFingerprint } from "@/utils/FingerPrint";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,14 +30,30 @@ export default function LoginForm() {
   const loginMutation = useLogin();
   const { isDarkMode } = useThemeContext();
 
+  const [fingerprint, setFingerprint] = useState("");
+
+  useEffect(() => {
+    const fingerprint = async () => {
+      const fingerprintData = await getDeviceFingerprint();
+      setFingerprint(fingerprintData);
+    };
+    fingerprint();
+  }, []);
+
   const formik = useFormik<LoginCredentials>({
     initialValues: {
       email: "",
       password: "",
+      fingerprint: "",
     },
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      loginMutation.mutate(values);
+      const submitValues = {
+        email: values.email,
+        password: values.password,
+        fingerprint,
+      };
+      loginMutation.mutate(submitValues);
     },
   });
 

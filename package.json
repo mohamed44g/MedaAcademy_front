@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "dev": "next dev --experimental-https",
+    "dev": "next dev --experimental-https -p 3001",
     "lint": "next lint",
     "start": "next start -p 3001"
   },
   "dependencies": {
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
+    "@fingerprintjs/fingerprintjs": "^4.6.2",
     "@gsap/react": "^2.1.2",
     "@hookform/resolvers": "^3.10.0",
     "@mui/icons-material": "^6.3.0",
@@ -25,6 +26,7 @@
     "date-fns": "^4.1.0",
     "embla-carousel-react": "^8.5.1",
     "formik": "^2.4.6",
+    "fuzzball": "^2.2.2",
     "gsap": "^3.12.8",
     "hls.js": "^1.6.5",
     "js-cookie": "^3.0.5",

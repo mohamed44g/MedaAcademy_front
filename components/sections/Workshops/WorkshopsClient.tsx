@@ -300,6 +300,7 @@ export function WorkshopsClient({
                               endIcon={<ArrowForward />}
                               component={Link}
                               href={`/workshops/${workshop.id}`}
+                              prefetch={false}
                               sx={{
                                 borderRadius: 25,
                                 px: 4,

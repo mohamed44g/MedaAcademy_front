@@ -257,6 +257,7 @@ export function Courses({
             size="large"
             component={Link}
             href="/courses?page=1"
+            prefetch={false}
             sx={{
               borderRadius: 25,
               px: 4,

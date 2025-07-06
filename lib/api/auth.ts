@@ -4,15 +4,17 @@ import { axiosInstance } from "../axiosClient";
 export interface LoginCredentials {
   email: string;
   password: string;
+  fingerprint: string;
 }
 
 export interface RegisterData {
   name: string;
   email: string;
   password: string;
-  confirmPassword: string;
   phone: string;
   specialty_id: number;
+  fingerprint: string;
+  confirmPassword?: string;
 }
 
 export interface AuthResponse {
@@ -105,9 +107,7 @@ export const authApi = {
   },
 
   // Update Profile
-  updateProfile: async (
-    userData: Partial<RegisterData>
-  ): Promise<any> => {
+  updateProfile: async (userData: Partial<RegisterData>): Promise<any> => {
     const response = await axiosInstance.put("/auth/profile", userData);
     return response.data.data;
   },

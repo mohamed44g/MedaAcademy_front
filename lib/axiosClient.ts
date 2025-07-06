@@ -3,11 +3,12 @@ import jsCookie from "js-cookie";
 import toast from "react-hot-toast";
 // Create axios instance
 export const axiosInstance = axios.create({
-  baseURL: "https://www.med-aplus.com/api",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 
 // Request interceptor
