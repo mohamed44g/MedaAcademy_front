@@ -23,7 +23,6 @@ import {
   Quiz,
   School,
   CheckCircle,
-  Lock,
   Person,
   AccessTime,
 } from "@mui/icons-material";
@@ -63,8 +62,8 @@ export function CourseContent({
         background: isDarkMode
           ? "radial-gradient(circle at 20% 80%, #1784ad15 0%, transparent 50%), radial-gradient(circle at 80% 20%, #4fa8c510 0%, transparent 50%)"
           : "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
-        minHeight: "100vh",
-        pt: { xs: 7, md: 8 },
+        minHeight: { xss: "110vh", sx: "100vh" },
+        pt: { xss: 7, md: 8 },
       }}
     >
       {/* Course Header */}
@@ -72,13 +71,18 @@ export function CourseContent({
         sx={{
           background: `linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)`,
           color: "white",
-          pt: { xs: 11, md: 12 },
+          pt: { xss: 11, md: 12 },
           pb: 6,
         }}
       >
         <Container maxWidth="lg">
-          <Grid2 container spacing={4} alignItems="center">
-            <Grid2 size={{ xs: 12, md: 8 }}>
+          <Grid2
+            container
+            spacing={4}
+            alignItems="center"
+            justifyContent={"center"}
+          >
+            <Grid2 size={{ xss: 12, md: 8 }}>
               <Typography variant="h3" sx={{ fontWeight: 700, mb: 2 }}>
                 {course.title}
               </Typography>
@@ -128,7 +132,7 @@ export function CourseContent({
                 />
               </Box>
             </Grid2>
-            <Grid2 size={{ xs: 12, md: 4 }}>
+            <Grid2 size={{ xss: 12, md: 4 }}>
               <Card
                 sx={{
                   borderRadius: 4,
@@ -241,9 +245,13 @@ export function CourseContent({
             {course.sections.midterm.chapters.map((chapter: any) => (
               <Card
                 key={chapter.id}
-                sx={{ m: 2, border: "1px solid", borderColor: "divider" }}
+                sx={{
+                  m: { xss: 1, xs: 2 },
+                  border: "1px solid",
+                  borderColor: "divider",
+                }}
               >
-                <CardContent sx={{ p: 3 }}>
+                <CardContent sx={{ p: { xss: 2, xs: 3 } }}>
                   <Box
                     sx={{
                       display: "flex",
@@ -376,9 +384,13 @@ export function CourseContent({
             {course.sections.final.chapters.map((chapter: any) => (
               <Card
                 key={chapter.id}
-                sx={{ m: 2, border: "1px solid", borderColor: "divider" }}
+                sx={{
+                  m: { xss: 1, xs: 2 },
+                  border: "1px solid",
+                  borderColor: "divider",
+                }}
               >
-                <CardContent sx={{ p: 3 }}>
+                <CardContent sx={{ p: { xss: 2, xs: 3 } }}>
                   <Box
                     sx={{
                       display: "flex",

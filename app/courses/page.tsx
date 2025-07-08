@@ -20,17 +20,9 @@ async function getCourses(page: number = 1, limit: number = 6) {
       `/courses?page=${page}&limit=${limit}`
     );
     const { data, total } = response.data.data;
-    const courses = data.map((course: any) => ({
-      id: course.id,
-      title: course.title,
-      description: course.description,
-      price: parseFloat(course.price),
-      instractor_name: course.instractor_name,
-      specialty_name: course.specialty_name,
-      poster: course.poster,
-    }));
     const totalPages = Math.ceil(parseInt(total) / limit);
-    return { courses, totalPages };
+    console.log("total", total);
+    return { data, totalPages };
   } catch (error) {
     console.error("Error fetching courses:", error);
     return { courses: [], totalPages: 1 };
@@ -44,7 +36,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { page } = await searchParams;
   const pageInt = parseInt(page || "1", 10);
-  const { courses } = await getCourses(pageInt);
+  const { data } = await getCourses(pageInt);
 
   const title = `كورسات MedA+ Academy التعليمية | الصفحة ${page}`;
   const description =
@@ -52,7 +44,7 @@ export async function generateMetadata({
   const siteUrl = "http://localhost:3001"; // استبدل بـ production URL
   const canonicalUrl =
     page === 1 ? `${siteUrl}/courses` : `${siteUrl}/courses?page=${page}`;
-  const firstCourse = courses[0] || {
+  const firstCourse = data[0] || {
     title: "كورسات طبية",
     poster: "/Uploads/default-course.jpg",
   };
@@ -106,30 +98,23 @@ export default async function CoursesPage({
   const { page } = await searchParams;
   const pageInt = parseInt(page || "1", 10);
   const limit = 6;
-  const { courses, totalPages } = await getCourses(pageInt);
+  const { data, totalPages } = await getCourses(pageInt);
 
   // JSON-LD Structured Data for Courses
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    itemListElement: courses.map((course: Course, index: number) => ({
+    itemListElement: data.map((course: Course, index: number) => ({
       "@type": "Course",
       position: index + 1,
       name: course.title,
       description: course.description,
-      url: `http://localhost:3001/courses/${course.id}`, // استبدل بـ production URL
+      url: `https://meda-plus.com/courses/${course.id}`, // استبدل بـ production URL
       image: `${axiosInstance.defaults.baseURL}${course.poster}`,
       provider: {
         "@type": "Organization",
         name: "MedA+ Academy",
-        url: "http://localhost:3001",
-      },
-      offers: {
-        "@type": "Offer",
-        price: course.price,
-        priceCurrency: "EGP",
-        availability: "https://schema.org/InStock",
-        url: `http://localhost:3001/courses/${course.id}`,
+        url: "https://meda-plus.com",
       },
       instructor: {
         "@type": "Person",
@@ -137,7 +122,6 @@ export default async function CoursesPage({
       },
     })),
   };
-
   return (
     <>
       <script
@@ -145,10 +129,10 @@ export default async function CoursesPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
       <Courses
-        courses={courses}
+        courses={data}
         baseUrl={axiosInstance.defaults.baseURL ?? ""}
         totalPages={totalPages}
-        currentPage={page}
+        currentPage={pageInt}
       />
     </>
   );

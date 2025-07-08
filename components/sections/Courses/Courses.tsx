@@ -18,6 +18,8 @@ import Image from "next/image";
 import axiosInstance from "@/lib/axiosClient";
 import Link from "next/link";
 import AnimatedText from "@/components/animatedText";
+import { CourseCard } from "@/components/CourseCard";
+import { ICourse } from "@/utils/types";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -25,7 +27,7 @@ export function Courses({
   courses,
   specialties,
 }: {
-  courses: any;
+  courses: ICourse[];
   specialties: any;
 }) {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -39,8 +41,8 @@ export function Courses({
       setFilteredCourses(courses);
     } else {
       setFilteredCourses(
-        courses.filter(
-          (course: any) => course.specialty_name === selectedCategory
+        courses.filter((course: ICourse) =>
+          course.speciality.includes(selectedCategory)
         )
       );
     }
@@ -62,20 +64,6 @@ export function Courses({
         {/* Header */}
         <Box sx={{ textAlign: "center", mb: 6 }}>
           <AnimatedText
-            variant="overline"
-            component="span"
-            text="احدث الدورات"
-            sx={{
-              color: "#1784ad",
-              fontWeight: 600,
-              fontSize: "0.9rem",
-              letterSpacing: 2,
-              mb: 2,
-              display: "block",
-            }}
-          />
-
-          <AnimatedText
             variant="h2"
             component="h2"
             sx={{
@@ -84,7 +72,7 @@ export function Courses({
               fontSize: { xs: "2rem", md: "2.5rem" },
               mb: 4,
             }}
-            text="احدث الدورات الطبية"
+            text="الكورسات الطبية المتوفرة"
           />
 
           <Box
@@ -155,96 +143,15 @@ export function Courses({
           </Box>
         </Box>
 
-        <Grid2 container spacing={4}>
-          {filteredCourses.map((course: any, index: any) => (
-            <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={index}>
-              <Card
-                className="course-card"
-                sx={{
-                  height: "100%",
-                  borderRadius: 4,
-                  overflow: "hidden",
-                  position: "relative",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    transform: "translateY(-10px)",
-                    boxShadow: 6,
-                  },
-                }}
-              >
-                <Box sx={{ position: "relative" }}>
-                  <CardMedia
-                    sx={{ position: "relative", width: "100%", height: 250 }}
-                  >
-                    <Image
-                      src={`${axiosInstance.defaults.baseURL}${course.poster}`}
-                      alt={course.title}
-                      fill
-                      style={{ objectFit: "cover" }}
-                    />
-                  </CardMedia>
-
-                  {/* Category Chip */}
-                  <Chip
-                    label={course.specialty_name}
-                    sx={{
-                      position: "absolute",
-                      top: 16,
-                      left: 16,
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                      color: "#1784ad",
-                      fontWeight: 600,
-                      fontSize: "0.75rem",
-                    }}
-                  />
-
-                  {/* Price Circle */}
-                  <Box
-                    sx={{
-                      position: "absolute",
-                      top: 16,
-                      right: 16,
-                      width: 60,
-                      height: 60,
-                      borderRadius: "50%",
-                      background:
-                        "linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      color: "white",
-                      fontWeight: 700,
-                      fontSize: "1rem",
-                    }}
-                  >
-                    {course.price}
-                  </Box>
-                </Box>
-
-                <CardContent sx={{ p: 3 }}>
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: "#1784ad",
-                      fontWeight: 500,
-                      mb: 1,
-                    }}
-                  >
-                    {course.instractor_name}
-                  </Typography>
-
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontWeight: 600,
-                      color: "text.primary",
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    {course.title}
-                  </Typography>
-                </CardContent>
-              </Card>
+        <Grid2
+          container
+          spacing={4}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          {filteredCourses.map((course: ICourse, index: any) => (
+            <Grid2 size={{ xss: 11, sm: 6, md: 4 }} key={index}>
+              <CourseCard course={course} />
             </Grid2>
           ))}
         </Grid2>

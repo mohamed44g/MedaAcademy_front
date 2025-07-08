@@ -121,19 +121,11 @@ export default async function WorkshopsPage({
       position: index + 1,
       name: workshop.title,
       description: workshop.description,
-      url: `http://localhost:3001/workshops/${workshop.id}`, // استبدل بـ production URL
+      url: `https://meda-plus.com/workshops/${workshop.id}`, // استبدل بـ production URL
       image: `${axiosInstance.defaults.baseURL}${workshop.image}`,
       eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
       eventStatus: "https://schema.org/EventScheduled",
-      startDate: new Date(workshop.formattedDate).toISOString(),
       duration: `PT${workshop.duration.replace(" ساعات", "H")}`,
-      offers: {
-        "@type": "Offer",
-        price: workshop.price,
-        priceCurrency: "EGP",
-        availability: "https://schema.org/InStock",
-        url: `http://localhost:3001/workshops/${workshop.id}`,
-      },
       organizer: {
         "@type": "Organization",
         name: "MedA+ Academy",
@@ -152,7 +144,7 @@ export default async function WorkshopsPage({
         workshops={workshops}
         baseUrl={axiosInstance.defaults.baseURL ?? ""}
         totalPages={totalPages}
-        currentPage={page}
+        currentPage={pageInt}
       />
     </>
   );

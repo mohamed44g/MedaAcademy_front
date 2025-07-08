@@ -28,5 +28,6 @@ export async function getCourseContent(courseId: string) {
 export default async function CourseContentPage({ params }: { params: any }) {
   const { courseId } = await params;
   const courseContent = await getCourseContent(courseId);
+  console.log(courseContent.sections.midterm);
   return <CourseContent courseId={courseId} courseContent={courseContent} />;
 }

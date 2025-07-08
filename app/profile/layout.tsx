@@ -26,6 +26,7 @@ export default async function ProfileLayout({
         sx={{
           minHeight: "100vh",
           backgroundColor: "background.default",
+          width: "100%",
           // pt: 2,
         }}
       >

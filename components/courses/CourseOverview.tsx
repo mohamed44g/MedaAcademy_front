@@ -87,7 +87,7 @@ export function CourseOverview({
           ? "radial-gradient(circle at 20% 80%, #1784ad15 0%, transparent 50%), radial-gradient(circle at 80% 20%, #4fa8c510 0%, transparent 50%)"
           : "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
         minHeight: "100vh",
-        pt: { xs: 7, md: 8 },
+        pt: { xss: 7, md: 8 },
       }}
     >
       {/* Course Header */}
@@ -95,13 +95,13 @@ export function CourseOverview({
         sx={{
           background: `linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)`,
           color: "white",
-          pt: { xs: 11, md: 12 },
+          pt: { xss: 11, md: 12 },
           pb: 6,
         }}
       >
         <Container maxWidth="lg">
           <Grid2 container spacing={4} alignItems="center">
-            <Grid2 size={{ xs: 12, md: 8 }}>
+            <Grid2 size={{ xss: 12, md: 8 }}>
               <Typography variant="h3" sx={{ fontWeight: 700, mb: 2 }}>
                 {course.title}
               </Typography>
@@ -111,7 +111,15 @@ export function CourseOverview({
               >
                 {course.description}
               </Typography>
-              <Box sx={{ display: "flex", gap: 3, flexWrap: "wrap", mb: 3 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xxs: "column", sm: "row" },
+                  gap: 3,
+                  flexWrap: "wrap",
+                  mb: 3,
+                }}
+              >
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
                   <Person />
                   <Typography variant="body2">
@@ -136,7 +144,7 @@ export function CourseOverview({
                 </Box>
               </Box>
             </Grid2>
-            <Grid2 size={{ xs: 12, md: 4 }}>
+            <Grid2 size={{ xss: 12, md: 4 }}>
               <Card
                 sx={{
                   borderRadius: 4,
@@ -184,7 +192,7 @@ export function CourseOverview({
                       href={`/courses/${courseId}/content`}
                       sx={{
                         borderRadius: 25,
-                        px: 4,
+                        px: { xss: 2, sx: 4 },
                         py: 1.5,
                         background: `linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)`,
                         "&:hover": {
@@ -253,7 +261,7 @@ export function CourseOverview({
                 ? "rgba(23, 132, 173, 0.1)"
                 : "#f8f9fa",
               borderRadius: "12px 12px 0 0",
-              px: 3,
+              px: { xss: 1, xs: 3 },
               py: 2,
             }}
           >
@@ -282,7 +290,7 @@ export function CourseOverview({
                 key={chapter.id}
                 sx={{ m: 2, border: "1px solid", borderColor: "divider" }}
               >
-                <CardContent sx={{ p: 3 }}>
+                <CardContent sx={{ p: { xss: 1.5, xs: 3 } }}>
                   <Box sx={{ mb: 2 }}>
                     <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
                       {chapter.title}

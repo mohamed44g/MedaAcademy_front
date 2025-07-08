@@ -7,9 +7,12 @@ import {
   Avatar,
   Grid2,
   Chip,
+  Button,
 } from "@mui/material";
 import { Person, Email, Phone, Category } from "@mui/icons-material";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import { EditUserModal } from "./modals/EditUserModal";
+import { useState } from "react";
 
 interface UserInfoProps {
   user: {
@@ -22,7 +25,7 @@ interface UserInfoProps {
 
 export function UserInfo({ user }: UserInfoProps) {
   const { isDarkMode } = useThemeContext();
-
+  const [openModel, setOpenModel] = useState(false);
   const userFields = [
     { label: "الاسم", value: user.name, icon: <Person /> },
     { label: "البريد الإلكتروني", value: user.email, icon: <Email /> },
@@ -31,7 +34,7 @@ export function UserInfo({ user }: UserInfoProps) {
   ];
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: { xss: 2, xs: 3 } }}>
       <Card
         sx={{
           borderRadius: 4,
@@ -43,7 +46,7 @@ export function UserInfo({ user }: UserInfoProps) {
             : "rgba(255, 255, 255, 0.9)",
         }}
       >
-        <CardContent sx={{ p: 4 }}>
+        <CardContent sx={{ p: { xss: 2, xs: 4 } }}>
           <Box
             sx={{
               display: "flex",
@@ -54,8 +57,8 @@ export function UserInfo({ user }: UserInfoProps) {
           >
             <Avatar
               sx={{
-                width: 120,
-                height: 120,
+                width: { xss: 100, xs: 120 },
+                height: { xss: 100, xs: 120 },
                 mb: 2,
                 background: `linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)`,
                 fontSize: "3rem",
@@ -84,9 +87,9 @@ export function UserInfo({ user }: UserInfoProps) {
             />
           </Box>
 
-          <Grid2 container spacing={3}>
+          <Grid2 container spacing={3} justifyContent={"center"}>
             {userFields.map((field, index) => (
-              <Grid2 size={{ xs: 12, md: 6 }} key={index}>
+              <Grid2 size={{ xss: 12, md: 6 }} key={index}>
                 <Box
                   sx={{
                     display: "flex",
@@ -126,6 +129,7 @@ export function UserInfo({ user }: UserInfoProps) {
                       variant="h6"
                       sx={{
                         fontWeight: 600,
+                        wordBreak: "break-word",
                         color: isDarkMode ? "#f9fafb" : "#1f2937",
                       }}
                     >
@@ -135,9 +139,26 @@ export function UserInfo({ user }: UserInfoProps) {
                 </Box>
               </Grid2>
             ))}
+
+            {/* <Button
+              variant="contained"
+              sx={{
+                py: 1,
+                mt: 5,
+              }}
+              onClick={() => setOpenModel(true)}
+            >
+              تعديل البيانات
+            </Button> */}
           </Grid2>
         </CardContent>
       </Card>
+
+      <EditUserModal
+        user={user}
+        open={openModel}
+        onClose={() => setOpenModel(false)}
+      />
     </Box>
   );
 }

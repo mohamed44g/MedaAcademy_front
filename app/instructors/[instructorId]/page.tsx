@@ -48,6 +48,8 @@ export default async function InstructorPage({
   const instructorData = await getInstructorData(instructorId);
   const coursesData = await getCoursesData(instructorId);
 
+  console.log(coursesData.courses);
+
   return (
     <Box
       sx={{
@@ -60,7 +62,10 @@ export default async function InstructorPage({
       <InstructorProfile instructor={instructorData} />
 
       {/* Instructor Courses Section */}
-      <Container maxWidth="xl" sx={{ py: 10 }}>
+      <Container
+        maxWidth="xl"
+        sx={{ py: 10, backgroundColor: "background.default" }}
+      >
         <InstructorCourses
           courses={coursesData.courses}
           pagination={coursesData.pagination}

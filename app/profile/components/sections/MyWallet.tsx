@@ -23,6 +23,7 @@ import {
   AttachMoney,
 } from "@mui/icons-material";
 import { useRouter, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 interface MyWalletProps {
   wallet: { balance: number; currency: string };
@@ -39,6 +40,12 @@ export function MyWallet({
 }: MyWalletProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const handelClicked = () => {
+    toast.loading("سيتم تحويلك الى رقم الدعم للشحن.");
+    setTimeout(() => {
+      window.location.replace("https://wa.me/+972595679383?text=");
+    }, 2000);
+  };
 
   const getTransactionIcon = (type: string) => {
     return type === "deposit" ? (
@@ -106,7 +113,7 @@ export function MyWallet({
 
       <Grid2 container spacing={4}>
         {/* Balance Card */}
-        <Grid2 size={{ xs: 12, md: 4 }}>
+        <Grid2 size={{ xss: 12, md: 4 }}>
           <Card
             sx={{
               background: "linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)",
@@ -128,12 +135,11 @@ export function MyWallet({
           >
             <CardContent sx={{ p: 4, position: "relative", zIndex: 2 }}>
               <Box sx={{ textAlign: "center" }}>
-                <AttachMoney sx={{ fontSize: 48, mb: 2 }} />
                 <Typography variant="h3" sx={{ fontWeight: 800, mb: 1 }}>
                   {wallet.balance}
                 </Typography>
                 <Typography variant="h6" sx={{ opacity: 0.9 }}>
-                  {wallet.currency}
+                  شيكل
                 </Typography>
               </Box>
             </CardContent>
@@ -144,6 +150,7 @@ export function MyWallet({
             variant="contained"
             fullWidth
             startIcon={<Add />}
+            onClick={handelClicked}
             sx={{
               mt: 2,
               borderRadius: 3,
@@ -161,7 +168,7 @@ export function MyWallet({
         </Grid2>
 
         {/* Transactions */}
-        <Grid2 size={{ xs: 12, md: 8 }}>
+        <Grid2 size={{ xss: 12, md: 8 }}>
           <Card>
             <CardContent sx={{ p: 4 }}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>

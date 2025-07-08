@@ -52,13 +52,12 @@ export default function RegisterForm({
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
-  const [verifyError, setVerifyError] = useState<string | null>(null);
-  const [isVerifying, setIsVerifying] = useState(false);
   const theme = useTheme();
   const { isDarkMode } = useThemeContext();
   const registerMutation = useRegister();
   const [fingerprint, setFingerprint] = useState("");
   const router = useRouter();
+  const [isCodeSent, SetIsCodeSent] = useState(false);
 
   useEffect(() => {
     const fetchFingerprint = async () => {
@@ -78,8 +77,7 @@ export default function RegisterForm({
     },
     onSuccess: () => {
       toast.success("تم ارسال الكود الى حسابك بنجاح.");
-      setIsVerifying(true);
-      setVerifyError(null);
+      SetIsCodeSent(true);
       setTabIndex(1);
     },
     onError: (error: any) => {
@@ -163,25 +161,12 @@ export default function RegisterForm({
         <Tab label="تأكيد الكود" tabIndex={1} />
       </Tabs>
 
-      {/* Error Alerts */}
-      {verifyError && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {verifyError}
-        </Alert>
-      )}
-      {registerMutation.isError && (
-        <Alert severity="error" sx={{ mb: 3 }}>
-          {registerMutation.error?.response?.data?.message ||
-            "حدث خطأ في إنشاء الحساب"}
-        </Alert>
-      )}
-
       {/* Register Form */}
       <form onSubmit={formik.handleSubmit}>
         {tabIndex === 0 ? (
           <Grid2 container spacing={3}>
             {/* First Name */}
-            <Grid2 size={{ xs: 12, sm: 6 }}>
+            <Grid2 size={{ xss: 12, sm: 6 }}>
               <TextField
                 fullWidth
                 name="name"
@@ -202,7 +187,7 @@ export default function RegisterForm({
             </Grid2>
 
             {/* Email */}
-            <Grid2 size={{ xs: 12, sm: 6 }}>
+            <Grid2 size={{ xss: 12, sm: 6 }}>
               <TextField
                 fullWidth
                 name="email"
@@ -224,7 +209,7 @@ export default function RegisterForm({
             </Grid2>
 
             {/* Phone */}
-            <Grid2 size={{ xs: 12, sm: 6 }}>
+            <Grid2 size={{ xss: 12, sm: 6 }}>
               <TextField
                 fullWidth
                 name="phone"
@@ -245,7 +230,7 @@ export default function RegisterForm({
             </Grid2>
 
             {/* Specialization */}
-            <Grid2 size={{ xs: 12, sm: 6 }}>
+            <Grid2 size={{ xss: 12, sm: 6 }}>
               <TextField
                 fullWidth
                 select
@@ -281,7 +266,7 @@ export default function RegisterForm({
             </Grid2>
 
             {/* Password */}
-            <Grid2 size={{ xs: 12, sm: 6 }}>
+            <Grid2 size={{ xss: 12, sm: 6 }}>
               <TextField
                 fullWidth
                 name="password"
@@ -315,7 +300,7 @@ export default function RegisterForm({
             </Grid2>
 
             {/* Confirm Password */}
-            <Grid2 size={{ xs: 12, sm: 6 }}>
+            <Grid2 size={{ xss: 12, sm: 6 }}>
               <TextField
                 fullWidth
                 name="confirmPassword"
@@ -357,6 +342,28 @@ export default function RegisterForm({
                 }}
               />
             </Grid2>
+
+            {!isCodeSent && (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                size="large"
+                disabled={verifyMutation.isPending}
+                sx={{
+                  py: 1.5,
+                  fontSize: "1.1rem",
+                  fontWeight: 600,
+                  borderRadius: 3,
+                  mt: 4,
+                  mb: 3,
+                }}
+              >
+                {verifyMutation.isPending
+                  ? "جارى ارسال الكود ..."
+                  : "ارسال كود التحقق"}
+              </Button>
+            )}
           </Grid2>
         ) : (
           <Box>
@@ -385,37 +392,30 @@ export default function RegisterForm({
               }}
               sx={{ mb: 3 }}
             />
+
+            {isCodeSent && (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                size="large"
+                disabled={registerMutation.isPending}
+                sx={{
+                  py: 1.5,
+                  fontSize: "1.1rem",
+                  fontWeight: 600,
+                  borderRadius: 3,
+                  mt: 4,
+                  mb: 3,
+                }}
+              >
+                {registerMutation.isPending
+                  ? "جارى انشاء الحساب ..."
+                  : "انشاء الحساب"}
+              </Button>
+            )}
           </Box>
         )}
-
-        {/* Submit Button */}
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          size="large"
-          disabled={
-            tabIndex === 0
-              ? verifyMutation.isPending || !formik.isValid
-              : registerMutation.isPending || !formik.values.verificationCode
-          }
-          sx={{
-            py: 1.5,
-            fontSize: "1.1rem",
-            fontWeight: 600,
-            borderRadius: 3,
-            mt: 4,
-            mb: 3,
-          }}
-        >
-          {tabIndex === 0
-            ? verifyMutation.isPending
-              ? "جارى ارسال الكود"
-              : "تأكيد الإيميل"
-            : registerMutation.isPending
-            ? "جاري إنشاء الحساب..."
-            : "إنشاء الحساب"}
-        </Button>
 
         {/* Divider */}
         <Divider sx={{ mb: 3 }}>

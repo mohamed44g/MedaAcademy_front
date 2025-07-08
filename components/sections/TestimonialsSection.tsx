@@ -104,7 +104,7 @@ export default function TestimonialsSection() {
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
+            flexDirection: { xss: "column", md: "row" },
             justifyContent: "center",
             alignItems: "center",
             gap: 6,
@@ -113,7 +113,7 @@ export default function TestimonialsSection() {
           {/* Right Side - Section Info */}
           <Box
             className="testimonial-info"
-            sx={{ flex: 1, pl: 4, textAlign: { xs: "center", md: "right" } }}
+            sx={{ flex: 1, pl: 0, textAlign: { xss: "center", md: "right" } }}
           >
             <Typography
               variant="overline"
@@ -139,20 +139,22 @@ export default function TestimonialsSection() {
                 lineHeight: 1.2,
               }}
             >
-              ما يقولون عنا ؟
+              ماذا يقولون عنا؟
             </Typography>
 
             <Typography
               variant="body1"
               sx={{
                 color: "text.secondary",
+                textAlign: "justify",
                 fontSize: "1.1rem",
                 lineHeight: 1.7,
               }}
             >
-              اكتشف تجارب الأطباء والمتخصصين الذين طوروا مهاراتهم معنا في
-              أكاديمية MedA+. آراء حقيقية من خبراء طبيين حول جودة التعليم
-              والتدريب المتقدم الذي نقدمه.
+              استمع لآراء حقيقية من طلاب الطب الذين خاضوا التجربة التعليمية
+              معنا. نفتخر بأن نكون جزءًا من رحلة تطوّر كل طالب. تعرّف على نخبة
+              من طلاب الطب والباحثين المتخصصين من الجامعات الفلسطينية الذين
+              يقودون التعليم الطبي في MedA+.
             </Typography>
           </Box>
 
@@ -163,7 +165,7 @@ export default function TestimonialsSection() {
               flex: 1,
               background: "linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)",
               borderRadius: 6,
-              p: 6,
+              p: { xss: 4, xs: 6 },
               color: "white",
               position: "relative",
               minHeight: 400,
@@ -217,14 +219,15 @@ export default function TestimonialsSection() {
                 alignItems: "center",
                 position: "relative",
                 zIndex: 2,
+                gap: 1,
               }}
             >
               <Avatar
                 src={currentTestimonial.image}
                 alt={currentTestimonial.name}
                 sx={{
-                  width: 80,
-                  height: 80,
+                  width: { xxs: 60, xs: 80 },
+                  height: { xxs: 60, xs: 80 },
                   mr: 3,
                   border: "3px solid rgba(255, 255, 255, 0.3)",
                 }}

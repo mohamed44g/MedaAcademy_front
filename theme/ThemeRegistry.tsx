@@ -5,6 +5,7 @@ import { responsiveFontSizes } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeContextProvider } from "@/contexts/ThemeContext";
 import { lightTheme, darkTheme } from "./theme";
+import { UserContextProvider } from "@/contexts/UserContext";
 
 export default function ThemeRegistry({
   children,
@@ -17,9 +18,11 @@ export default function ThemeRegistry({
   return (
     <ThemeContextProvider lightTheme={light_theme} darkTheme={dark_theme}>
       <CssBaseline enableColorScheme />
-      <div style={{ fontFamily: "var(--font-changa), sans-serif" }}>
-        {children}
-      </div>
+      <UserContextProvider>
+        <div style={{ fontFamily: "var(--font-changa), sans-serif" }}>
+          {children}
+        </div>
+      </UserContextProvider>
     </ThemeContextProvider>
   );
 }

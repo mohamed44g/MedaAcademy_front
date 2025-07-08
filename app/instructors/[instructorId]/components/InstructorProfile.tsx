@@ -157,7 +157,7 @@ export function InstructorProfile({ instructor }: InstructorProfileProps) {
 
         <Container maxWidth="xl" sx={{ position: "relative", zIndex: 2 }}>
           <Grid2 container spacing={8} alignItems="center">
-            <Grid2 size={{ xs: 12, lg: 5 }}>
+            <Grid2 size={{ xss: 12, lg: 5 }}>
               <Box
                 sx={{
                   display: "flex",
@@ -219,8 +219,7 @@ export function InstructorProfile({ instructor }: InstructorProfileProps) {
                     backgroundColor: "rgba(255, 255, 255, 0.2)",
                     color: "white",
                     fontWeight: 700,
-                    fontSize: "1.1rem",
-                    px: 3,
+                    px: 2,
                     py: 2,
                     height: "auto",
                     backdropFilter: "blur(10px)",
@@ -327,7 +326,7 @@ export function InstructorProfile({ instructor }: InstructorProfileProps) {
             justifyContent="center"
           >
             {statsData.map((stat, index) => (
-              <Grid2 size={{ xs: 12, md: 3, lg: 3 }} key={index}>
+              <Grid2 size={{ xss: 10, md: 3, lg: 3 }} key={index}>
                 <Card
                   sx={{
                     textAlign: "center",

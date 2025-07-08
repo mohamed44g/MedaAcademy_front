@@ -161,7 +161,7 @@ export function MyComments() {
       ) : (
         <Grid2 container spacing={4}>
           {comments.map((comment: Comment) => (
-            <Grid2 size={{ xs: 12, md: 6 }} key={comment.id}>
+            <Grid2 size={{ xss: 12, md: 6 }} key={comment.id}>
               <Card
                 sx={{
                   transition: "all 0.3s ease",

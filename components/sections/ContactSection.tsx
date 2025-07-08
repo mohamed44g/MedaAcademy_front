@@ -95,7 +95,7 @@ export default function ContactSection() {
         <Box
           sx={{
             display: "flex",
-            flexDirection: { xs: "column", md: "row" },
+            flexDirection: { xss: "column", md: "row" },
             justifyContent: "center",
             alignItems: "center",
             gap: 6,
@@ -106,7 +106,7 @@ export default function ContactSection() {
             ref={rightRef}
             sx={{
               flex: 1,
-              order: { xs: 2, md: 1 },
+              order: { xss: 2, md: 1 },
               background:
                 "linear-gradient(135deg, #1784ad 0%, #4fa8c5 50%, #1784ad 100%)",
               borderRadius: 6,
@@ -218,6 +218,7 @@ export default function ContactSection() {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  gap: 1,
                 }}
               >
                 <Button
@@ -228,7 +229,7 @@ export default function ContactSection() {
                     color: "#1784ad",
                     borderRadius: 25,
                     px: 4,
-                    py: 1.5,
+                    py: { xss: 1, xs: 1.5 },
                     fontWeight: 600,
                     "&:hover": {
                       backgroundColor: "rgba(255, 255, 255, 0.9)",
@@ -264,8 +265,8 @@ export default function ContactSection() {
             ref={leftRef}
             sx={{
               flex: 1,
-              order: { xs: 1, md: 2 },
-              textAlign: { xs: "center", md: "right" },
+              order: { xss: 1, md: 2 },
+              textAlign: { xss: "center", md: "right" },
             }}
           >
             <Typography
@@ -288,7 +289,7 @@ export default function ContactSection() {
               sx={{
                 color: "text.primary",
                 fontWeight: 700,
-                fontSize: { xs: "2rem", md: "2.5rem" },
+                fontSize: { xss: "2rem", md: "2.5rem" },
                 mb: 4,
                 lineHeight: 1.2,
               }}
@@ -315,7 +316,7 @@ export default function ContactSection() {
               sx={{
                 display: "flex",
                 alignItems: "center",
-                gap: 3,
+                gap: { xss: 2, xs: 3 },
               }}
             >
               <Box
@@ -323,8 +324,7 @@ export default function ContactSection() {
                   background:
                     "linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)",
                   borderRadius: "50px 20px 50px 20px",
-                  p: 3,
-                  color: "white",
+                  p: { xss: 2, xs: 3 },
                   textAlign: "center",
                   minWidth: 120,
                 }}
@@ -352,7 +352,7 @@ export default function ContactSection() {
                 </Typography>
                 <Typography
                   variant="h6"
-                  sx={{ color: "#1f2937", fontWeight: 600 }}
+                  sx={{ color: "text.secondary", fontWeight: 600 }}
                 >
                   عرض خاص <span style={{ color: "#1784ad" }}>50% خصم!</span>
                 </Typography>

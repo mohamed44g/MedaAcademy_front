@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { Box, Container, Typography, Button, Grid2 } from "@mui/material";
 import { PlayArrow as PlayArrowIcon } from "@mui/icons-material";
 import { gsap } from "gsap";
+import Link from "next/link";
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -52,13 +53,14 @@ export default function HeroSection() {
     <Box
       ref={heroRef}
       sx={{
-        minHeight: { xs: "120vh", md: "100vh" },
+        minHeight: { xss: "120vh", xs: "120vh", md: "100vh" },
         background: "linear-gradient(135deg, #1784ad 0%, #4fa8c5 100%)",
         position: "relative",
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
         clipPath: {
+          xss: "ellipse(300% 107% at 100% 0%)",
           xs: "ellipse(180% 100% at 100% 0%)",
           md: "ellipse(180% 100% at 100% 0%)",
         },
@@ -73,8 +75,8 @@ export default function HeroSection() {
           position: "absolute",
           top: "20%",
           left: "10%",
-          width: { xs: 130, md: 200 },
-          height: { xs: 130, md: 200 },
+          width: { xss: 110, xs: 130, md: 200 },
+          height: { xss: 110, xs: 130, md: 200 },
           borderRadius: "50%",
           background: "rgba(255, 255, 255, 0.1)",
           zIndex: 1,
@@ -122,10 +124,19 @@ export default function HeroSection() {
 
       <Container
         maxWidth={"lg"}
-        sx={{ position: "relative", zIndex: 2, top: { xs: 120, md: 0 } }}
+        sx={{
+          position: "relative",
+          zIndex: 2,
+          top: { xss: 100, md: 0 },
+        }}
       >
-        <Grid2 container spacing={{ xs: 2, md: 4 }} alignItems="center">
-          <Grid2 size={{ xs: 12, md: 6 }}>
+        <Grid2
+          container
+          spacing={{ xss: 2, md: 4 }}
+          alignItems="center"
+          justifyContent={"center"}
+        >
+          <Grid2 size={{ xss: 12, md: 6 }}>
             <Box sx={{ color: "white" }}>
               <Typography
                 ref={titleRef}
@@ -137,9 +148,9 @@ export default function HeroSection() {
                   lineHeight: 1.2,
                 }}
               >
-                مع MedA+ Academy
+                مع MedA+
                 <Box component="span" sx={{ display: "block" }}>
-                  التعليم الطبي المتطور
+                  تميّزك يبدأ هنا.
                 </Box>
               </Typography>
 
@@ -152,21 +163,23 @@ export default function HeroSection() {
                   maxWidth: { xs: 300, md: 500 },
                 }}
               >
-                طريقك للنجاح والتقدم يبدا من هنا سجل معانا دلوقتى.
+                طريقك للنجاح والتقدّم ببلّش من هون… سجّل معنا وابدأ مشوارك.
               </Typography>
 
               <Box
                 ref={buttonsRef}
                 sx={{
                   display: "flex",
-                  gap: { xs: 0, md: 4 },
-                  flexDirection: { xs: "column", sm: "row" },
-                  alignItems: { xs: "stretch", sm: "center" },
+                  gap: { xs: 0, md: 0 },
+                  flexDirection: { xss: "column", xs: "column", sm: "row" },
+                  alignItems: { xss: "stretch", xs: "stretch", sm: "center" },
                 }}
               >
                 <Button
                   variant="contained"
                   size="large"
+                  component={Link}
+                  href="/auth/login"
                   sx={{
                     backgroundColor: "white",
                     color: "#1784ad",
@@ -195,25 +208,26 @@ export default function HeroSection() {
             </Box>
           </Grid2>
 
-          <Grid2 size={{ xs: 12, md: 6 }}>
+          <Grid2 size={{ xss: 12, md: 6 }}>
             <Box
               sx={{
                 position: "relative",
                 borderRadius: 4,
                 overflow: "hidden",
+                width: "100%",
               }}
             >
               <Box
                 ref={imageRef}
                 component="img"
-                src="/images/pic14.png"
+                src="/images/main1.png"
                 alt="Medical Education"
                 sx={{
                   position: "relative",
                   zIndex: 150,
-                  width: { xs: "75%", md: "92%" },
-                  mr: { xs: 0, md: 8 },
-                  mt: { xs: 0, md: 9 },
+                  width: { xss: "74%", xs: "75%", md: "87%" },
+                  mr: { xss: 4, md: 9 },
+                  mt: { xss: 0, md: 10 },
                   borderRadius: 4,
                 }}
               />

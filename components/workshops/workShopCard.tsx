@@ -4,6 +4,7 @@ import {
   Schedule,
   AttachMoney,
   ArrowForward,
+  Sell,
 } from "@mui/icons-material";
 import {
   Card,
@@ -16,8 +17,14 @@ import {
 import Link from "next/link";
 import Image from "next/image";
 import { useThemeContext } from "@/contexts/ThemeContext";
+import axiosInstance from "@/lib/axiosClient";
 
-export default function WorkShopCard({ workshop, baseURL }: any) {
+interface IWorkShopProps {
+  workshop: any;
+  onEnroll: () => void;
+}
+
+export default function WorkShopCard({ workshop, onEnroll }: IWorkShopProps) {
   const { isDarkMode } = useThemeContext();
   return (
     <Card
@@ -38,13 +45,13 @@ export default function WorkShopCard({ workshop, baseURL }: any) {
           <Box
             sx={{
               position: "relative",
-              height: { xs: 200, md: 280 },
+              height: { xss: 200, md: 280 },
               overflow: "hidden",
               borderRadius: "16px 16px 0 0",
             }}
           >
             <Image
-              src={`${baseURL}${workshop.image}`}
+              src={`${axiosInstance.defaults.baseURL}${workshop.image}`}
               alt={workshop.title}
               fill
               style={{ objectFit: "cover" }}
@@ -71,7 +78,7 @@ export default function WorkShopCard({ workshop, baseURL }: any) {
 
           <Box
             sx={{
-              p: { xs: 3, md: 4 },
+              p: { xss: 3, md: 4 },
               display: "flex",
               flexDirection: "column",
               gap: 2,
@@ -142,7 +149,7 @@ export default function WorkShopCard({ workshop, baseURL }: any) {
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <AttachMoney
+              <Sell
                 sx={{
                   color: "primary.main",
                   fontSize: 20,
@@ -163,7 +170,7 @@ export default function WorkShopCard({ workshop, baseURL }: any) {
                     color: "primary.main",
                   }}
                 >
-                  {workshop.price} جنيه
+                  {workshop.price} ₪
                 </Typography>
               </Box>
             </Box>
@@ -171,9 +178,8 @@ export default function WorkShopCard({ workshop, baseURL }: any) {
             <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
               <Button
                 variant="contained"
-                endIcon={<ArrowForward />}
-                component={Link}
-                href={`/workshops/${workshop.id}`}
+                endIcon={<ArrowForward sx={{ mr: 1 }} />}
+                onClick={() => onEnroll()}
                 sx={{
                   borderRadius: 25,
                   px: 4,

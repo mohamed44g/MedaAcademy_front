@@ -17,13 +17,14 @@ import {
   ArrowForward,
 } from "@mui/icons-material";
 import { useThemeContext } from "@/contexts/ThemeContext";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "@/lib/axiosClient";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import WorkShopCard from "./workShopCard";
+import toast from "react-hot-toast";
 
 interface Workshop {
   id: number;
@@ -43,50 +44,34 @@ interface WorkshopsSectionProps {
 }
 
 export function Workshops({
-  workshops: initialWorkshops,
+  workshops,
   baseUrl,
-  totalPages: initialTotalPages,
-  currentPage: initialCurrentPage,
+  totalPages,
+  currentPage,
 }: WorkshopsSectionProps) {
   const { isDarkMode } = useThemeContext();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
-  const {
-    data: { workshops, totalPages } = {
-      workshops: initialWorkshops,
-      totalPages: initialTotalPages,
-    },
-  } = useQuery({
-    queryKey: ["workshops", currentPage],
-    queryFn: async () => {
-      const response = await axiosInstance.get(
-        `/workshops?page=${currentPage}&limit=6`
+  const { mutate } = useMutation({
+    mutationFn: async (workshopId: number) => {
+      const response = await axiosInstance.post(
+        `/workshops/${workshopId}/enroll`
       );
-      const { data, total } = response.data.data;
-      const workshops = data.map((workshop: any) => ({
-        id: workshop.id,
-        title: workshop.title,
-        description: workshop.description,
-        price: parseFloat(workshop.price),
-        formattedDate: new Date(workshop.event_date).toLocaleDateString(
-          "ar-EG",
-          {
-            timeZone: "UTC",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }
-        ),
-        duration: `${workshop.event_time} ساعات`,
-        image: workshop.image_url,
-      }));
-      return { workshops, totalPages: Math.ceil(total / 6) };
+      return response.data.data;
     },
-    initialData: { workshops: initialWorkshops, totalPages: initialTotalPages },
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    onSuccess: () => {
+      toast.success("تم التسجيل بنجاح");
+    },
+    onError: (error: any) => {
+      if (error.response) toast.error(error.response.data.message);
+      else toast.error("حدث خطأ أثناء التسجيل");
+    },
   });
+
+  const enrollWorkshop = (workshopId: number) => {
+    mutate(workshopId);
+  };
 
   const handlePageChange = useCallback(
     (event: React.ChangeEvent<unknown>, page: number) => {
@@ -100,7 +85,8 @@ export function Workshops({
   return (
     <Box
       sx={{
-        py: { xs: 8, md: 12 },
+        py: { xs: 8, md: 15 },
+        px: 2,
         background: isDarkMode
           ? "radial-gradient(circle at 20% 80%, #1784ad15 0%, transparent 50%), radial-gradient(circle at 80% 20%, #4fa8c510 0%, transparent 50%)"
           : "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
@@ -123,11 +109,21 @@ export function Workshops({
         }}
       />
 
-      <Container maxWidth="xl" sx={{ position: "relative", zIndex: 2 }}>
-        <Grid2 container spacing={4}>
+      <Container
+        maxWidth="lg"
+        sx={{
+          position: "relative",
+          zIndex: 2,
+          justifyContent: "space-between",
+        }}
+      >
+        <Grid2 container spacing={5}>
           {workshops.map((workshop: any) => (
             <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={workshop.id}>
-              <WorkShopCard workshop={workshop} baseURL={baseUrl} />
+              <WorkShopCard
+                workshop={workshop}
+                onEnroll={() => enrollWorkshop(workshop.id)}
+              />
             </Grid2>
           ))}
         </Grid2>

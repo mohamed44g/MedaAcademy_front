@@ -10,12 +10,7 @@ import {
 } from "@mui/material";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Navigation,
-  Pagination,
-  Autoplay,
-  EffectCoverflow,
-} from "swiper/modules";
+import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { InstructorCard } from "./InstructorCard";
@@ -25,7 +20,6 @@ import { useThemeContext } from "@/contexts/ThemeContext";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import "swiper/css/effect-coverflow";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -133,7 +127,7 @@ export function InstructorsCarousel({
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              fontSize: { xs: "2.5rem", md: "3.5rem" },
+              fontSize: { xss: "2rem", xs: "2.5rem", md: "3.5rem" },
             }}
           >
             {title}
@@ -161,11 +155,11 @@ export function InstructorsCarousel({
             sx={{
               position: "absolute",
               top: "50%",
-              right: { xs: 10, md: -60 },
+              right: { xss: 10, md: -60 },
               transform: "translateY(-50%)",
               zIndex: 10,
-              width: 56,
-              height: 56,
+              width: { xss: 30, xs: 56 },
+              height: { xss: 30, xs: 56 },
               backgroundColor: isDarkMode
                 ? "rgba(255, 255, 255, 0.1)"
                 : "rgba(255, 255, 255, 0.9)",
@@ -190,11 +184,11 @@ export function InstructorsCarousel({
             sx={{
               position: "absolute",
               top: "50%",
-              left: { xs: 10, md: -60 },
+              left: { xss: 10, md: -60 },
               transform: "translateY(-50%)",
               zIndex: 10,
-              width: 56,
-              height: 56,
+              width: { xss: 40, xs: 56 },
+              height: { xss: 40, xs: 56 },
               backgroundColor: isDarkMode
                 ? "rgba(255, 255, 255, 0.1)"
                 : "rgba(255, 255, 255, 0.9)",
@@ -217,12 +211,12 @@ export function InstructorsCarousel({
           {/* Swiper */}
           <Swiper
             ref={swiperRef}
-            modules={[Navigation, Pagination, Autoplay, EffectCoverflow]}
+            modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={30}
             slidesPerView={getSlidesPerView()}
             centeredSlides={true}
             autoplay={{
-              delay: 3000,
+              delay: 2000,
               disableOnInteraction: false,
               pauseOnMouseEnter: true,
             }}
@@ -231,13 +225,6 @@ export function InstructorsCarousel({
               dynamicBullets: true,
             }}
             effect="slide"
-            coverflowEffect={{
-              rotate: 15,
-              stretch: 0,
-              depth: 100,
-              modifier: 1,
-              slideShadows: false,
-            }}
             loop={instructors.length > 3}
             className="swiper-container"
             onSwiper={(swiper) => {

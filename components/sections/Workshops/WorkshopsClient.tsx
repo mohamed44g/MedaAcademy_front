@@ -8,12 +8,14 @@ import {
   Button,
   Grid2,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   CalendarToday,
   Schedule,
   AttachMoney,
   ArrowForward,
+  Sell,
 } from "@mui/icons-material";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import Image from "next/image";
@@ -23,6 +25,9 @@ import WorkShopCard from "@/components/workshops/workShopCard";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { useMutation } from "@tanstack/react-query";
+import axiosInstance from "@/lib/axiosClient";
+import toast from "react-hot-toast";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 export function WorkshopsClient({
@@ -34,7 +39,27 @@ export function WorkshopsClient({
 }) {
   const { isDarkMode } = useThemeContext();
   const isMobile = useMediaQuery("(max-width: 900px)");
+  const theme = useTheme();
+  const isxss = useMediaQuery(theme.breakpoints.up("xss"));
+  const { mutate } = useMutation({
+    mutationFn: async (workshopId: number) => {
+      const response = await axiosInstance.post(
+        `/workshops/${workshopId}/enroll`
+      );
+      return response.data.data;
+    },
+    onSuccess: () => {
+      toast.success("تم التسجيل بنجاح");
+    },
+    onError: (error: any) => {
+      if (error.response) toast.error(error.response.data.message);
+      else toast.error("حدث خطأ أثناء التسجيل");
+    },
+  });
 
+  const enrollWorkshop = (workshopId: number) => {
+    mutate(workshopId);
+  };
   useGSAP(() => {
     gsap.from(".workshop-cards", {
       opacity: 0,
@@ -53,7 +78,7 @@ export function WorkshopsClient({
     <Box
       id="workshops"
       sx={{
-        py: { xs: 8, md: 12 },
+        py: { xss: 8, md: 12 },
         background: isDarkMode
           ? "radial-gradient(circle at 20% 80%, #1784ad15 0%, transparent 50%), radial-gradient(circle at 80% 20%, #4fa8c510 0%, transparent 50%)"
           : "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
@@ -102,15 +127,19 @@ export function WorkshopsClient({
           />
         </Box>
 
-        <Grid2 container spacing={4} sx={{ justifyContent: "center" }}>
+        <Grid2
+          container
+          spacing={4}
+          sx={{ justifyContent: "center" }}
+          className="workshop-cards"
+        >
           {workshops.map((workshop: any) => (
-            <Grid2
-              size={{ xs: 10 }}
-              key={workshop.id}
-              className="workshop-cards"
-            >
+            <Grid2 size={{ xs: 10 }} key={workshop.id}>
               {isMobile ? (
-                <WorkShopCard workshop={workshop} baseURL={baseUrl} />
+                <WorkShopCard
+                  workshop={workshop}
+                  onEnroll={() => enrollWorkshop(workshop.id)}
+                />
               ) : (
                 <Card
                   sx={{
@@ -264,7 +293,7 @@ export function WorkshopsClient({
                                   gap: 1,
                                 }}
                               >
-                                <AttachMoney
+                                <Sell
                                   sx={{
                                     color: "primary.main",
                                     fontSize: 20,
@@ -285,7 +314,7 @@ export function WorkshopsClient({
                                       color: "primary.main",
                                     }}
                                   >
-                                    {workshop.price} جنيه
+                                    {workshop.price} ₪
                                   </Typography>
                                 </Box>
                               </Box>
@@ -297,10 +326,8 @@ export function WorkshopsClient({
                           >
                             <Button
                               variant="contained"
-                              endIcon={<ArrowForward />}
-                              component={Link}
-                              href={`/workshops/${workshop.id}`}
-                              prefetch={false}
+                              endIcon={<ArrowForward sx={{ mr: 1 }} />}
+                              onClick={() => enrollWorkshop(workshop.id)}
                               sx={{
                                 borderRadius: 25,
                                 px: 4,

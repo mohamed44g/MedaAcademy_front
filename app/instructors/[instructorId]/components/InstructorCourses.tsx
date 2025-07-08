@@ -1,22 +1,7 @@
 "use client";
-import { useState } from "react";
-import {
-  Box,
-  Typography,
-  Grid2,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TextField,
-  InputAdornment,
-  Tabs,
-  Tab,
-  Chip,
-} from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { Box, Typography, Grid2 } from "@mui/material";
 import { useThemeContext } from "@/contexts/ThemeContext";
-import { CourseCard } from "./CourseCard";
+import { CourseCard } from "@/components/CourseCard";
 import { CoursesPagination } from "./CoursesPagination";
 
 interface InstructorCoursesProps {
@@ -34,23 +19,8 @@ export function InstructorCourses({
 }: InstructorCoursesProps) {
   const { isDarkMode } = useThemeContext();
 
-  const categories = [
-    { value: "", label: "جميع التخصصات" },
-    { value: "cardiology", label: "طب القلب" },
-    { value: "anatomy", label: "التشريح" },
-    { value: "diagnosis", label: "التشخيص" },
-    { value: "surgery", label: "الجراحة" },
-  ];
-
-  const filterTabs = [
-    { label: "الكل", count: pagination.totalCourses },
-    { label: "الأكثر شعبية", count: courses.filter((c) => c.isPopular).length },
-    { label: "خصومات", count: courses.filter((c) => c.hasDiscount).length },
-    { label: "جديد", count: 3 },
-  ];
-
   return (
-    <Box>
+    <Box sx={{ backgroundColor: "background.defaults" }}>
       {/* Enhanced Section Header */}
       <Box
         sx={{
@@ -100,9 +70,9 @@ export function InstructorCourses({
       </Box>
 
       {/* Enhanced Courses Grid */}
-      <Grid2 container spacing={5}>
+      <Grid2 container spacing={5} alignItems="center" justifyContent="center">
         {courses.map((course, index) => (
-          <Grid2 size={{ xs: 12, sm: 6, lg: 4 }} key={course.id}>
+          <Grid2 size={{ xss: 11, sm: 6, lg: 4 }} key={course.id}>
             <Box
               sx={{
                 animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`,
@@ -118,23 +88,20 @@ export function InstructorCourses({
                 },
               }}
             >
-              <CourseCard course={course} instructor={instructor} />
+              <CourseCard course={course} />
             </Box>
           </Grid2>
         ))}
       </Grid2>
 
-      {/* Pagination */}
-      {pagination.totalPages > 1 && (
-        <Box sx={{ mt: 8 }}>
-          <CoursesPagination
-            currentPage={currentPage}
-            totalPages={pagination.totalPages}
-            hasNextPage={pagination.hasNextPage}
-            hasPreviousPage={pagination.hasPreviousPage}
-          />
-        </Box>
-      )}
+      <Box sx={{ mt: 8 }}>
+        <CoursesPagination
+          currentPage={currentPage}
+          totalPages={pagination.totalPages}
+          hasNextPage={pagination.hasNextPage}
+          hasPreviousPage={pagination.hasPreviousPage}
+        />
+      </Box>
     </Box>
   );
 }

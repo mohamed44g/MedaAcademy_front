@@ -96,24 +96,33 @@ export function ChangePassword() {
       sx={{
         mt: 10,
         height: "100vh",
-        width: "80%",
+        width: { xss: "90%", sx: "80%" },
         mx: "auto",
         position: "relative",
         transform: "translateY(13%)",
       }}
     >
       {/* Header */}
-      <Box sx={{ display: "flex", alignItems: "center", mb: 4 }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { sxx: "column", sm: "row" },
+          justifyContent: "center",
+          alignItems: "center",
+          mb: 4,
+        }}
+      >
         <Box
           sx={{
-            width: 60,
-            height: 60,
+            width: { xss: 50, xs: 60 },
+            height: { xss: 50, xs: 60 },
             borderRadius: 3,
             background: "linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             mr: 3,
+            ml: 1,
             boxShadow: "0 4px 15px rgba(255, 107, 107, 0.3)",
           }}
         >
@@ -142,7 +151,7 @@ export function ChangePassword() {
 
           <Grid2 container spacing={4}>
             {/* Current Password */}
-            <Grid2 size={{ xs: 12 }}>
+            <Grid2 size={{ xss: 12 }}>
               <TextField
                 fullWidth
                 label="كلمة المرور الحالية"
@@ -180,7 +189,7 @@ export function ChangePassword() {
             </Grid2>
 
             {/* New Password */}
-            <Grid2 size={{ xs: 12, md: 6 }}>
+            <Grid2 size={{ xss: 12, md: 6 }}>
               <TextField
                 fullWidth
                 label="كلمة المرور الجديدة"

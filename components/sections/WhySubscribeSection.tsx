@@ -42,10 +42,6 @@ const reasons = [
     color: "#84CC16",
   },
   {
-    title: "الاعتراف العالمي",
-    color: "#F97316",
-  },
-  {
     title: "تدريب عملي",
     color: "#EC4899",
   },
@@ -179,19 +175,6 @@ export default function WhySubscribeSection() {
       <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
         {/* Section Header */}
         <Box sx={{ textAlign: "center", mb: 8 }}>
-          <AnimatedText
-            variant="overline"
-            component="span"
-            text="ليه تختارنا"
-            sx={{
-              color: theme.palette.primary.main,
-              fontWeight: 600,
-              letterSpacing: 2,
-              mb: 2,
-              display: "block",
-            }}
-          />
-
           <AnimatedText
             variant="h2"
             component="h2"

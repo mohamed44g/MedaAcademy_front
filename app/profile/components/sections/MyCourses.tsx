@@ -79,9 +79,9 @@ export function MyCourses({ courses }: MyCoursesProps) {
           </CardContent>
         </Card>
       ) : (
-        <Grid2 container spacing={4}>
+        <Grid2 container spacing={4} justifyContent={"center"}>
           {courses.map((course) => (
-            <Grid2 size={{ xs: 12, md: 4 }} key={course.id}>
+            <Grid2 size={{ xss: 11, md: 4 }} key={course.id}>
               <Card
                 sx={{
                   transition: "all 0.3s ease",
@@ -256,7 +256,7 @@ export function MyCourses({ courses }: MyCoursesProps) {
                     <Button
                       variant="contained"
                       fullWidth
-                      endIcon={<ArrowForward />}
+                      endIcon={<ArrowForward sx={{ mr: 1 }} />}
                       component={Link}
                       href={`/courses/${course.id}/content`}
                       sx={{

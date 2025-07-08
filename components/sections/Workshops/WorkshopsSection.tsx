@@ -1,7 +1,6 @@
 import { axiosInstance } from "../../../lib/axiosServer"; // تأكد من المسار الصحيح
 import { WorkshopsClient } from "./WorkshopsClient";
 
-
 export const dynamic = "force-dynamic";
 
 async function getLatestWorkshops() {

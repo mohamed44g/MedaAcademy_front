@@ -268,8 +268,8 @@ export default function Footer() {
           maxWidth="lg"
           sx={{
             display: "flex",
-            justifyContent: { xs: "center", sm: "space-between" },
-            flexDirection: { xs: "column", sm: "row" },
+            justifyContent: { xss: "center", sm: "space-between" },
+            flexDirection: { xss: "column", sm: "row" },
             alignItems: "center",
           }}
         >

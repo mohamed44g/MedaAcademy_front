@@ -17,38 +17,14 @@ import {
   ArrowForward,
 } from "@mui/icons-material";
 import Link from "next/link";
+import axiosInstance from "@/lib/axiosClient";
+import Image from "next/image";
 
 interface MyWorkshopsProps {
   workshops: any[];
 }
 
 export function MyWorkshops({ workshops }: MyWorkshopsProps) {
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "upcoming":
-        return "#4caf50";
-      case "ongoing":
-        return "#ff9800";
-      case "completed":
-        return "#2196f3";
-      default:
-        return "#757575";
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case "upcoming":
-        return "قادمة";
-      case "ongoing":
-        return "جارية";
-      case "completed":
-        return "مكتملة";
-      default:
-        return "غير محدد";
-    }
-  };
-
   return (
     <Box>
       {/* Header */}
@@ -63,12 +39,13 @@ export function MyWorkshops({ workshops }: MyWorkshopsProps) {
             alignItems: "center",
             justifyContent: "center",
             mr: 3,
+            p: 1,
             boxShadow: "0 4px 15px rgba(255, 152, 0, 0.3)",
           }}
         >
           <WorkSharp sx={{ color: "white", fontSize: 28 }} />
         </Box>
-        <Box>
+        <Box sx={{ p: 1 }}>
           <Typography
             variant="h4"
             sx={{ fontWeight: 800, color: "primary.main" }}
@@ -103,9 +80,9 @@ export function MyWorkshops({ workshops }: MyWorkshopsProps) {
           </CardContent>
         </Card>
       ) : (
-        <Grid2 container spacing={4}>
+        <Grid2 container spacing={4} justifyContent={"center"}>
           {workshops.map((workshop) => (
-            <Grid2 size={{ xs: 12, md: 6 }} key={workshop.id}>
+            <Grid2 size={{ xss: 12, md: 6 }} key={workshop.id}>
               <Card
                 sx={{
                   transition: "all 0.3s ease",
@@ -121,28 +98,25 @@ export function MyWorkshops({ workshops }: MyWorkshopsProps) {
                     sx={{
                       position: "relative",
                       height: 200,
-                      backgroundImage: `url(${workshop.image_url})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
                       borderRadius: "16px 16px 0 0",
                     }}
                   >
+                    <Image
+                      src={`${axiosInstance.defaults.baseURL}${workshop.image}`}
+                      fill
+                      style={{
+                        objectFit: "cover",
+                        borderRadius: "16px 16px 0 0",
+                      }}
+                      alt={workshop.title}
+                    />
                     <Box
                       sx={{
                         position: "absolute",
                         top: 16,
                         right: 16,
                       }}
-                    >
-                      <Chip
-                        label={getStatusText(workshop.status)}
-                        sx={{
-                          backgroundColor: getStatusColor(workshop.status),
-                          color: "white",
-                          fontWeight: 600,
-                        }}
-                      />
-                    </Box>
+                    ></Box>
                     <Box
                       sx={{
                         position: "absolute",
@@ -158,7 +132,7 @@ export function MyWorkshops({ workshops }: MyWorkshopsProps) {
                         variant="h6"
                         sx={{ color: "white", fontWeight: 700 }}
                       >
-                        {workshop.price} جنيه
+                        {workshop.price} ₪
                       </Typography>
                     </Box>
                   </Box>
@@ -167,6 +141,7 @@ export function MyWorkshops({ workshops }: MyWorkshopsProps) {
                   <Box sx={{ p: 3 }}>
                     <Typography
                       variant="h6"
+                      color="text.primary"
                       sx={{
                         fontWeight: 700,
                         mb: 2,
@@ -218,7 +193,7 @@ export function MyWorkshops({ workshops }: MyWorkshopsProps) {
                         </Typography>
                       </Box>
 
-                      <Box
+                      {/* <Box
                         sx={{
                           display: "flex",
                           alignItems: "center",
@@ -230,7 +205,7 @@ export function MyWorkshops({ workshops }: MyWorkshopsProps) {
                         <Typography variant="body2" sx={{ fontWeight: 600 }}>
                           {workshop.instructor}
                         </Typography>
-                      </Box>
+                      </Box> */}
 
                       <Box
                         sx={{ display: "flex", alignItems: "center", gap: 1 }}
@@ -239,32 +214,10 @@ export function MyWorkshops({ workshops }: MyWorkshopsProps) {
                           sx={{ color: "primary.main", fontSize: 18 }}
                         />
                         <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                          {workshop.location}
+                          {"online"}
                         </Typography>
                       </Box>
                     </Box>
-
-                    {/* Action Button */}
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      endIcon={<ArrowForward />}
-                      component={Link}
-                      href={`/workshops/${workshop.id}`}
-                      sx={{
-                        borderRadius: 3,
-                        py: 1.5,
-                        background:
-                          "linear-gradient(135deg, #ff9800 0%, #ffb74d 100%)",
-                        boxShadow: "0 4px 15px rgba(255, 152, 0, 0.3)",
-                        "&:hover": {
-                          transform: "translateY(-2px)",
-                          boxShadow: "0 6px 20px rgba(255, 152, 0, 0.4)",
-                        },
-                      }}
-                    >
-                      عرض تفاصيل الورشة
-                    </Button>
                   </Box>
                 </CardContent>
               </Card>

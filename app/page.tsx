@@ -1,4 +1,3 @@
-import Navbar from "../components/navigation/Navbar";
 import HeroSection from "../components/sections/HeroSection";
 import AboutSection from "../components/sections/AboutSection";
 import WhySubscribeSection from "../components/sections/WhySubscribeSection";

@@ -15,7 +15,6 @@ export async function getCourseData(courseId: string) {
 export default async function Course({ params }: { params: any }) {
   const { courseId } = await params;
   const courseData = await getCourseData(courseId);
-  console.log(courseData);
   return (
     <CourseOverview
       courseId={courseId}

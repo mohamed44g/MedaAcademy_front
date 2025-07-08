@@ -2,6 +2,17 @@
 import { createTheme } from "@mui/material/styles";
 import { Changa } from "next/font/google";
 
+declare module "@mui/material/styles" {
+  interface BreakpointOverrides {
+    xss: true; // أضف الـ breakpoint الجديد
+    xs: true;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
+  }
+}
+
 const changa = Changa({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -43,6 +54,16 @@ export const lightTheme = createTheme({
       lineHeight: 1.3,
     },
   },
+  breakpoints: {
+    values: {
+      xss: 0, // breakpoint جديد للشاشات الصغيرة جدًا
+      xs: 360, // القيم الافتراضية أو حسب احتياجك
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
 });
 
 export const darkTheme = createTheme({
@@ -78,6 +99,17 @@ export const darkTheme = createTheme({
       fontSize: "2.5rem",
       fontWeight: 600,
       lineHeight: 1.3,
+    },
+  },
+
+  breakpoints: {
+    values: {
+      xss: 0, // breakpoint جديد للشاشات الصغيرة جدًا
+      xs: 360, // القيم الافتراضية أو حسب احتياجك
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
     },
   },
 });

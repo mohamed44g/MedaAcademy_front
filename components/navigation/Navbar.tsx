@@ -12,6 +12,7 @@ import {
   ListItem,
   ListItemText,
   useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
@@ -23,6 +24,9 @@ import { useTheme as useMuiTheme } from "@mui/material/styles";
 import Link from "next/link";
 import { useThemeContext } from "@/contexts/ThemeContext";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import { useUserContext } from "@/contexts/UserContext";
+import { useLogout } from "@/hooks/useAuth";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -34,10 +38,14 @@ export default function Navbar() {
   const isMainPage = path === "/";
   const hideNavbar = path.includes("/videos/") || path.includes("/profile");
   const isAuthPage = path === "/auth/login" || path === "/auth/register";
-
+  const { IsNewUser, IslogedIn, role } = useUserContext();
+  const theme = useTheme();
+  const isxss = useMediaQuery(theme.breakpoints.up("xss"));
+  const logout = useLogout();
   const navItems = [
     { label: "الرئيسية", href: "/" },
-    { label: "عنا", href: isAuthPage ? "/#about" : "#about" },
+    IslogedIn && { label: "حسابى", href: "/profile" },
+    { label: "من نحن", href: isAuthPage ? "/#about" : "#about" },
     { label: "مميزاتنا", href: isAuthPage ? "/#features" : "#features" },
     { label: "كورسات", href: isAuthPage ? "/#courses" : "#courses" },
     { label: "الورشات", href: isAuthPage ? "/#workshops" : "#workshops" },
@@ -66,16 +74,19 @@ export default function Navbar() {
         </IconButton>
       </Box>
       <List>
-        {navItems.map((item) => (
-          <ListItem
-            key={item.label}
-            onClick={handleDrawerToggle}
-            component={Link}
-            href={item.href}
-          >
-            <ListItemText primary={item.label} />
-          </ListItem>
-        ))}
+        {navItems.map(
+          (item) =>
+            item && (
+              <ListItem
+                key={item.label}
+                onClick={handleDrawerToggle}
+                component={Link}
+                href={item.href}
+              >
+                <ListItemText primary={item.label} />
+              </ListItem>
+            )
+        )}
         <ListItem>
           <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
             سجل الآن
@@ -104,62 +115,72 @@ export default function Navbar() {
           }}
         >
           <Toolbar sx={{ justifyContent: "space-between" }}>
-            <Box
-              sx={{ display: "flex", alignItems: "center", gap: 1 }}
-              component={Link}
-              href="/"
-            >
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{
-                  fontWeight: 700,
-                  color: "white",
-                  fontSize: "1.5rem",
-                  textDecoration: "none",
-                }}
-              >
-                MedA+ Academy
-              </Typography>
+            <Box sx={{ display: "flex", gap: 1 }} component={Link} href="/">
+              <Image
+                src="/images/MedA White logo.png"
+                alt="Logo"
+                width={isxss ? 75 : 100}
+                height={isxss ? 35 : 55}
+                style={{ marginInline: 20 }}
+              />
             </Box>
 
             {!isMobile ? (
               <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-                {navItems.map((item) => (
-                  <Button
-                    key={item.label}
-                    color="inherit"
-                    component={Link}
-                    href={item.href}
-                    sx={{
-                      color: "white",
-                      "&:hover": {
-                        backgroundColor: "rgba(255, 255, 255, 0.1)",
-                      },
-                    }}
-                  >
-                    {item.label}
-                  </Button>
-                ))}
+                {navItems.map(
+                  (item) =>
+                    item && (
+                      <Button
+                        key={item.label}
+                        color="inherit"
+                        component={Link}
+                        href={item.href}
+                        sx={{
+                          color: "white",
+                          "&:hover": {
+                            backgroundColor: "rgba(255, 255, 255, 0.1)",
+                          },
+                        }}
+                      >
+                        {item.label}
+                      </Button>
+                    )
+                )}
 
                 <IconButton onClick={toggleTheme} sx={{ color: "white" }}>
                   {isDarkMode ? <LightMode /> : <DarkMode />}
                 </IconButton>
 
-                <Button
-                  variant="contained"
-                  component={Link}
-                  href="/auth/login"
-                  sx={{
-                    backgroundColor: "white",
-                    color: muiTheme.palette.primary.main,
-                    "&:hover": {
-                      backgroundColor: "rgba(255, 255, 255, 0.9)",
-                    },
-                  }}
-                >
-                  سجل الآن
-                </Button>
+                {!IslogedIn ? (
+                  <Button
+                    variant="contained"
+                    component={Link}
+                    href="/auth/login"
+                    sx={{
+                      backgroundColor: "white",
+                      color: muiTheme.palette.primary.main,
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                    }}
+                  >
+                    سجل الآن
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    onClick={() => logout.mutate()}
+                    sx={{
+                      backgroundColor: "white",
+                      color: muiTheme.palette.primary.main,
+                      "&:hover": {
+                        backgroundColor: "rgba(255, 255, 255, 0.9)",
+                      },
+                    }}
+                  >
+                    سجل خروج
+                  </Button>
+                )}
               </Box>
             ) : (
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>

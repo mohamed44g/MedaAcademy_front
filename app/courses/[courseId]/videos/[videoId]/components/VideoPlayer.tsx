@@ -95,7 +95,7 @@ export const VideoPlayer = ({ videoData }: any) => {
       sx={{
         width: "100vw",
         height: "auto",
-        maxWidth: { xs: "95vw", md: "70vw" },
+        maxWidth: { xss: "95vw", md: "70vw" },
         mx: "auto",
         mt: 4,
         mb: 4,
