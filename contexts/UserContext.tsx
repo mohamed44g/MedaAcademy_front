@@ -32,7 +32,7 @@ export const UserContextProvider = ({
   children: React.ReactNode;
 }) => {
   const token = jsCookie.get("auth_token") || "";
-  const decodedToken: any = token && jwtDecode(token);
+  const decodedToken: any = token ? jwtDecode(token) : null;
   const [IsNewUser, SetIsNewUser] = useState(true);
   const [IslogedIn, SetIslogedIn] = useState(false);
   const [role, SetRole] = useState<string | null>(null);
@@ -40,7 +40,7 @@ export const UserContextProvider = ({
   const updateLoginState = () => {
     SetIsNewUser(false);
     SetIslogedIn(true);
-    SetRole(`${decodedToken.role}`);
+    SetRole(`${decodedToken?.role}`);
   };
 
   //make function to update user logout state
@@ -50,7 +50,7 @@ export const UserContextProvider = ({
     SetRole(null);
   };
   //check if token is expired
-  const isTokenExpired = decodedToken.exp
+  const isTokenExpired = decodedToken?.exp
     ? decodedToken.exp < Date.now() / 1000
     : true;
 

@@ -15,6 +15,7 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: authApi.login,
     onSuccess: (data) => {
+      console.log(data.data.token);
       Cookies.set("auth_token", data.data.token, {
         expires: 1,
         secure: true,
@@ -35,7 +36,10 @@ export const useLogin = () => {
     },
     onError: (error: any) => {
       const message =
-        error.response?.data?.message || "حدث خطأ في تسجيل الدخول";
+        error.response?.data?.message ||
+        error.message ||
+        "حدث خطأ في تسجيل الدخول";
+      console.log(error);
       toast.error(message);
     },
   });
