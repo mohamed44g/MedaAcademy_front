@@ -15,15 +15,8 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: authApi.login,
     onSuccess: (data) => {
-      // Store token and user data
-      console.log(data);
       Cookies.set("auth_token", data.data.token, {
         expires: 1,
-        secure: true,
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
-      });
-      Cookies.set("refreshToken", data.data.refreshToken, {
-        expires: 15,
         secure: true,
         sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
       });

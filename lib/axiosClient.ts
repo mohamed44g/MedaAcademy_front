@@ -17,7 +17,6 @@ axiosInstance.interceptors.request.use(
     if (typeof window !== "undefined") {
       // Client-side: Read token using js-cookie (handled in client component)
       const token = jsCookie.get("auth_token");
-      console.log("token client", token);
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -40,7 +39,6 @@ axiosInstance.interceptors.response.use(
       // Unauthorized - clear token and redirect to login
       if (typeof window !== "undefined") {
         jsCookie.remove("auth_token");
-        jsCookie.remove("user_data");
         window.location.href = "/auth/login";
       }
     }

@@ -19,7 +19,6 @@ axiosInstance.interceptors.request.use(
       // Server-side: Read token from cookies using next/headers
       const cookieStore = await cookies();
       const token = cookieStore.get("auth_token")?.value;
-      console.log("token server", token);
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
