@@ -13,6 +13,8 @@ interface UserContextType {
   IsNewUser: boolean;
   IslogedIn: boolean;
   role: string | null;
+  updateLoginState: () => void;
+  updateLogoutState: () => void;
 }
 
 interface Ipayload {
@@ -34,7 +36,19 @@ export const UserContextProvider = ({
   const [IsNewUser, SetIsNewUser] = useState(true);
   const [IslogedIn, SetIslogedIn] = useState(false);
   const [role, SetRole] = useState<string | null>(null);
-  console.log("renderd");
+  //make function to update user login state
+  const updateLoginState = () => {
+    SetIsNewUser(false);
+    SetIslogedIn(true);
+    SetRole(`${decodedToken.role}`);
+  };
+
+  //make function to update user logout state
+  const updateLogoutState = () => {
+    SetIsNewUser(true);
+    SetIslogedIn(false);
+    SetRole(null);
+  };
   //check if token is expired
   const isTokenExpired = decodedToken.exp
     ? decodedToken.exp < Date.now() / 1000
@@ -42,14 +56,20 @@ export const UserContextProvider = ({
 
   useEffect(() => {
     if (!isTokenExpired) {
-      SetIsNewUser(false);
-      SetIslogedIn(true);
-      SetRole(`${decodedToken.role}`);
+      updateLoginState();
     }
   }, []);
 
   return (
-    <UserContext.Provider value={{ IsNewUser, IslogedIn, role }}>
+    <UserContext.Provider
+      value={{
+        IsNewUser,
+        IslogedIn,
+        role,
+        updateLoginState,
+        updateLogoutState,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

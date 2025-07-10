@@ -4,11 +4,13 @@ import { authApi } from "../lib/api/auth";
 import { useRouter } from "next/navigation";
 import { toast } from "react-hot-toast";
 import Cookies from "js-cookie";
+import { useUserContext } from "@/contexts/UserContext";
 
 // Auth hooks
 export const useLogin = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { updateLoginState } = useUserContext();
 
   return useMutation({
     mutationFn: authApi.login,
@@ -16,9 +18,14 @@ export const useLogin = () => {
       // Store token and user data
       console.log(data);
       Cookies.set("auth_token", data.data.token, {
-        expires: 7,
+        expires: 1,
         secure: true,
-        sameSite: "Strict",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
+      });
+      Cookies.set("refreshToken", data.data.refreshToken, {
+        expires: 15,
+        secure: true,
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Strict",
       });
 
       // Update query cache
@@ -26,6 +33,7 @@ export const useLogin = () => {
 
       // Show success message
       toast.success(data.message || "تم تسجيل الدخول بنجاح");
+      updateLoginState();
 
       // Redirect to dashboard
       setTimeout(() => {
@@ -65,28 +73,31 @@ export const useRegister = () => {
 export const useLogout = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { updateLogoutState } = useUserContext();
 
   return useMutation({
     mutationFn: authApi.logout,
     onSuccess: () => {
       // Clear local storage
-      localStorage.removeItem("auth_token");
-      localStorage.removeItem("user_data");
+      Cookies.remove("auth_token");
+      Cookies.remove("refreshToken");
 
       // Clear query cache
       queryClient.clear();
 
       // Show success message
       toast.success("تم تسجيل الخروج بنجاح");
+      updateLogoutState();
 
       // Redirect to login
       router.push("/auth/login");
     },
     onError: () => {
       // Even if logout fails on server, clear local data
-      localStorage.removeItem("auth_token");
-      localStorage.removeItem("user_data");
+      Cookies.remove("auth_token");
+      Cookies.remove("refreshToken");
       queryClient.clear();
+      updateLogoutState();
       router.push("/auth/login");
     },
   });
@@ -112,6 +123,22 @@ export const useForgotPassword = () => {
     onError: (error: any) => {
       const message =
         error.response?.data?.message || "حدث خطأ في إرسال البريد الإلكتروني";
+      toast.error(message);
+    },
+  });
+};
+
+export const useResetPassword = () => {
+  const router = useRouter();
+  return useMutation({
+    mutationFn: authApi.resetPassword,
+    onSuccess: (data) => {
+      toast.success(data.message || "تم إعادة تعيين كلمة المرور");
+      router.push("/auth/login");
+    },
+    onError: (error: any) => {
+      const message =
+        error.response?.data?.message || "حدث خطأ في إعادة تعيين كلمة المرور";
       toast.error(message);
     },
   });

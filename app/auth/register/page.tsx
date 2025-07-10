@@ -30,9 +30,10 @@ export default async function RegisterPage() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        py: 15,
       }}
     >
-      <Container maxWidth="md" sx={{ py: 15 }}>
+      <Container maxWidth="md">
         <Card
           sx={{
             borderRadius: 4,

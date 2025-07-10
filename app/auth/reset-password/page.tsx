@@ -1,9 +1,8 @@
-import { Box, Container, Button } from "@mui/material";
-import { ArrowBack } from "@mui/icons-material";
-import NextLink from "next/link";
-import LoginForm from "./loginform";
+"use client";
+import { Box, Container } from "@mui/material";
+import ResetPasswordForm from "./ResetPasswordForm";
 
-export default function LoginPage() {
+export default function ResetPasswordPage() {
   return (
     <Box
       sx={{
@@ -11,11 +10,12 @@ export default function LoginPage() {
         background: "background.default",
         display: "flex",
         alignItems: "center",
+        justifyContent: "center",
         py: 15,
       }}
     >
       <Container maxWidth="sm">
-        <LoginForm />
+        <ResetPasswordForm />
       </Container>
     </Box>
   );

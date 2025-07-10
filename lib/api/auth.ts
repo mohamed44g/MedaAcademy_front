@@ -7,6 +7,15 @@ export interface LoginCredentials {
   fingerprint: string;
 }
 
+export interface ResetPasswordCredentials {
+  password: string;
+  confirmPassword: string;
+}
+
+export interface forgotPasswordCredentials {
+  email: string;
+}
+
 export interface RegisterData {
   name: string;
   email: string;
@@ -48,7 +57,7 @@ export const authApi = {
 
   // Logout
   logout: async (): Promise<{ success: boolean; message: string }> => {
-    const response = await axiosInstance.post("/auth/logout");
+    const response = await axiosInstance.post("/users/logout");
     return response.data;
   },
 
@@ -64,21 +73,26 @@ export const authApi = {
   forgotPassword: async (
     email: string
   ): Promise<{ success: boolean; message: string }> => {
-    const response = await axiosInstance.post("/auth/forgot-password", {
+    const response = await axiosInstance.post("/users/forget-password", {
       email,
     });
     return response.data;
   },
 
   // Reset Password
-  resetPassword: async (
-    token: string,
-    password: string
-  ): Promise<{ success: boolean; message: string }> => {
-    const response = await axiosInstance.post("/auth/reset-password", {
-      token,
-      password,
-    });
+  resetPassword: async ({
+    password,
+    token,
+  }: {
+    password: string;
+    token: string;
+  }): Promise<any> => {
+    const response = await axiosInstance.post(
+      "/users/reset-password?token=" + token,
+      {
+        password,
+      }
+    );
     return response.data;
   },
 
@@ -86,7 +100,7 @@ export const authApi = {
   verifyEmail: async (
     token: string
   ): Promise<{ success: boolean; message: string }> => {
-    const response = await axiosInstance.post("/auth/verify-email", { token });
+    const response = await axiosInstance.post("/users/verify-email", { token });
     return response.data;
   },
 
@@ -94,7 +108,7 @@ export const authApi = {
   resendVerification: async (
     email: string
   ): Promise<{ success: boolean; message: string }> => {
-    const response = await axiosInstance.post("/auth/resend-verification", {
+    const response = await axiosInstance.post("/users/resend-verification", {
       email,
     });
     return response.data;
@@ -102,13 +116,13 @@ export const authApi = {
 
   // Get Current User
   getCurrentUser: async (): Promise<any> => {
-    const response = await axiosInstance.get("/auth/me");
+    const response = await axiosInstance.get("/users/me");
     return response.data.data;
   },
 
   // Update Profile
   updateProfile: async (userData: Partial<RegisterData>): Promise<any> => {
-    const response = await axiosInstance.put("/auth/profile", userData);
+    const response = await axiosInstance.put("/users", userData);
     return response.data.data;
   },
 
@@ -117,7 +131,7 @@ export const authApi = {
     currentPassword: string,
     newPassword: string
   ): Promise<{ success: boolean; message: string }> => {
-    const response = await axiosInstance.put("/auth/change-password", {
+    const response = await axiosInstance.put("/users/change-password", {
       currentPassword,
       newPassword,
     });

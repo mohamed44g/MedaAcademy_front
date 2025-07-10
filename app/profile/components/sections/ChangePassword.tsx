@@ -14,6 +14,9 @@ import {
   LinearProgress,
 } from "@mui/material";
 import { Lock, Visibility, VisibilityOff, Security } from "@mui/icons-material";
+import { axiosInstance } from "@/lib/axiosClient";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 export function ChangePassword() {
   const [formData, setFormData] = useState({
@@ -31,6 +34,21 @@ export function ChangePassword() {
     type: "success" | "error";
     text: string;
   } | null>(null);
+
+  const { mutate: changePassword, isPending } = useMutation({
+    mutationFn: async (data: any) => {
+      const response = await axiosInstance.put("/users/password", data);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast.success("تم تغيير كلمة المرور بنجاح!");
+    },
+    onError: (error: any) => {
+      toast.error(
+        error.response?.data?.message || "حدث خطأ أثناء تغيير كلمة المرور"
+      );
+    },
+  });
 
   const handleChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -66,27 +84,21 @@ export function ChangePassword() {
 
   const handleSubmit = async () => {
     if (formData.newPassword !== formData.confirmPassword) {
-      setMessage({
-        type: "error",
-        text: "كلمة المرور الجديدة وتأكيدها غير متطابقين",
-      });
+      toast.error("كلمة المرور الجديدة وتأكيدها غير متطابقين");
       return;
     }
 
-    if (formData.newPassword.length < 8) {
-      setMessage({
-        type: "error",
-        text: "كلمة المرور يجب أن تكون 8 أحرف على الأقل",
-      });
+    if (formData.currentPassword === formData.newPassword) {
+      toast.error(
+        "كلمة المرور الجديدة يجب أن تكون مختلفة عن كلمة المرور الحالية"
+      );
       return;
     }
 
-    setLoading(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setMessage({ type: "success", text: "تم تغيير كلمة المرور بنجاح!" });
-    setFormData({ currentPassword: "", newPassword: "", confirmPassword: "" });
-    setLoading(false);
+    changePassword({
+      oldPassword: formData.currentPassword,
+      password: formData.newPassword,
+    });
   };
 
   const passwordStrength = getPasswordStrength(formData.newPassword);
@@ -314,7 +326,7 @@ export function ChangePassword() {
                   variant="contained"
                   size="large"
                   disabled={
-                    loading ||
+                    isPending ||
                     !formData.currentPassword ||
                     !formData.newPassword ||
                     !formData.confirmPassword ||
@@ -334,7 +346,7 @@ export function ChangePassword() {
                     },
                   }}
                 >
-                  {loading ? "جاري التغيير..." : "تغيير كلمة المرور"}
+                  {isPending ? "جاري التغيير..." : "تغيير كلمة المرور"}
                 </Button>
               </Box>
             </Grid2>
