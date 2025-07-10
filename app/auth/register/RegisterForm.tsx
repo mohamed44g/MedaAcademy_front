@@ -130,7 +130,7 @@ export default function RegisterForm({
   return (
     <CardContent
       sx={{
-        p: 6,
+        p: { xss: 2, sm: 6 },
         borderRadius: 4,
         background: isDarkMode
           ? "radial-gradient(circle at 20% 80%, #1784ad15 0%, transparent 50%), radial-gradient(circle at 80% 20%, #4fa8c510 0%, transparent 50%)"

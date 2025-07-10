@@ -98,7 +98,7 @@ export default function WhySubscribeSection() {
       // عرض الحاوية الفرعية = 80% من 800px = 640px
       const cardsContainerWidth = 640;
       const cardWidth = 120;
-      const availableWidth = cardsContainerWidth - cardWidth; // 520px
+      const availableWidth = cardsContainerWidth - cardWidth - 50; // 520px
 
       // توزيع الكروت داخل الحاوية الفرعية فقط
       const spreadX = Math.random() * availableWidth - availableWidth / 2; // من -260 إلى +260
@@ -205,6 +205,7 @@ export default function WhySubscribeSection() {
           sx={{
             position: "relative",
             maxWidth: { xs: "800px", md: "900px" },
+            overflow: "hidden",
             mx: "auto",
             height: 400,
             background:
@@ -239,14 +240,14 @@ export default function WhySubscribeSection() {
             ref={cardsContainerRef}
             sx={{
               position: "absolute",
-              top: "40%",
-              right: { xs: "20%", md: "0%" },
+              top: { xss: "15%", sm: "40%" },
+              right: { xss: "15%", sm: "0%" },
               transform: {
                 xs: "translate(-50%, -50%)",
                 md: "translate(-50%, -50%)",
               },
-              width: { xs: "80%", md: "90%" }, // 80% من الحاوية الرئيسية
-              height: { xs: "80%", md: "80%" }, // 80% من ارتفاع الحاوية الرئيسية
+              width: { xss: "80%", md: "90%" }, // 80% من الحاوية الرئيسية
+              height: { xss: "80%", md: "80%" }, // 80% من ارتفاع الحاوية الرئيسية
             }}
           >
             {reasons.map((reason, index) => (

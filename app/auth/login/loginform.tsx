@@ -62,11 +62,12 @@ export default function LoginForm() {
       sx={{
         borderRadius: 4,
         overflow: "hidden",
+        py: { xss: 2},
       }}
     >
       <CardContent
         sx={{
-          p: 6,
+          p: { xss: 2, sm: 6 },
           background: isDarkMode
             ? "radial-gradient(circle at 20% 80%, #1784ad15 0%, transparent 50%), radial-gradient(circle at 80% 20%, #4fa8c510 0%, transparent 50%)"
             : "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
